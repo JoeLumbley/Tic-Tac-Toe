@@ -463,30 +463,19 @@ Public Class Form1
             If board(0, y) = player AndAlso board(1, y) = player AndAlso board(2, y) = player Then
 
                 Select Case y
-                    Case 0 'Top row
+                    Case 0 'Top Row
 
-                        WinMarkerStart.X = ClientRectangle.Left + cellPaddingWidth
-                        WinMarkerStart.Y = ClientSize.Height \ 6
-                        WinMarkerEnd.X = ClientRectangle.Right - cellPaddingWidth
-                        WinMarkerEnd.Y = ClientSize.Height \ 6
+                        MarkWinningTopRow()
 
-                    Case 1 'Mid row
+                    Case 1 'Mid Row
 
-                        WinMarkerStart.X = ClientRectangle.Left + cellPaddingWidth
-                        WinMarkerStart.Y = ClientSize.Height \ 2
-                        WinMarkerEnd.X = ClientRectangle.Right - cellPaddingWidth
-                        WinMarkerEnd.Y = ClientSize.Height \ 2
+                        MarkWinningMidRow()
 
                     Case 2 'Bottom row
 
-                        WinMarkerStart.X = ClientRectangle.Left + cellPaddingWidth
-                        WinMarkerStart.Y = ClientSize.Height - ClientSize.Height \ 6
-                        WinMarkerEnd.X = ClientRectangle.Right - cellPaddingWidth
-                        WinMarkerEnd.Y = ClientSize.Height - ClientSize.Height \ 6
+                        MarkWinningBottomRow()
 
                 End Select
-
-                WinMarkerVisable = True
 
                 Return True
 
@@ -502,28 +491,17 @@ Public Class Form1
                 Select Case x
                     Case 0
 
-                        WinMarkerStart.X = ClientRectangle.Width \ 6
-                        WinMarkerStart.Y = ClientRectangle.Top + cellPaddingHeight
-                        WinMarkerEnd.X = ClientRectangle.Width \ 6
-                        WinMarkerEnd.Y = ClientSize.Height - cellPaddingHeight
+                        MarkWinningLeftColumn()
 
                     Case 1
 
-                        WinMarkerStart.X = ClientRectangle.Width \ 2
-                        WinMarkerStart.Y = ClientRectangle.Top + cellPaddingHeight
-                        WinMarkerEnd.X = ClientRectangle.Width \ 2
-                        WinMarkerEnd.Y = ClientSize.Height - cellPaddingHeight
+                        MarkWinningMidColumn()
 
                     Case 2
 
-                        WinMarkerStart.X = ClientRectangle.Width - ClientRectangle.Width \ 6
-                        WinMarkerStart.Y = ClientRectangle.Top + cellPaddingHeight
-                        WinMarkerEnd.X = ClientRectangle.Width - ClientRectangle.Width \ 6
-                        WinMarkerEnd.Y = ClientSize.Height - cellPaddingHeight
+                        MarkWinningRightColumn()
 
                 End Select
-
-                WinMarkerVisable = True
 
                 Return True
 
@@ -534,12 +512,7 @@ Public Class Form1
         ' Check diagonals
         If board(0, 0) = player AndAlso board(1, 1) = player AndAlso board(2, 2) = player Then
 
-            WinMarkerStart.X = ClientRectangle.Left + cellPaddingWidth
-            WinMarkerStart.Y = ClientRectangle.Top + cellPaddingHeight
-            WinMarkerEnd.X = ClientRectangle.Right - cellPaddingWidth
-            WinMarkerEnd.Y = ClientRectangle.Bottom - cellPaddingHeight
-
-            WinMarkerVisable = True
+            MarkWinningTopLeftBottomRight()
 
             Return True
 
@@ -547,12 +520,7 @@ Public Class Form1
 
         If board(2, 0) = player AndAlso board(1, 1) = player AndAlso board(0, 2) = player Then
 
-            WinMarkerStart.X = ClientRectangle.Right - cellPaddingWidth
-            WinMarkerStart.Y = ClientRectangle.Top + cellPaddingHeight
-            WinMarkerEnd.X = ClientRectangle.Left + cellPaddingWidth
-            WinMarkerEnd.Y = ClientRectangle.Bottom - cellPaddingHeight
-
-            WinMarkerVisable = True
+            MarkWinningTopRightBottomLeft()
 
             Return True
 
@@ -561,6 +529,102 @@ Public Class Form1
         Return False
 
     End Function
+
+    Private Sub MarkWinningRightColumn()
+
+        WinMarkerStart.X = ClientRectangle.Width - ClientRectangle.Width \ 6
+        WinMarkerStart.Y = ClientRectangle.Top + cellPaddingHeight
+
+        WinMarkerEnd.X = ClientRectangle.Width - ClientRectangle.Width \ 6
+        WinMarkerEnd.Y = ClientSize.Height - cellPaddingHeight
+
+        WinMarkerVisable = True
+
+    End Sub
+
+    Private Sub MarkWinningMidColumn()
+
+        WinMarkerStart.X = ClientRectangle.Width \ 2
+        WinMarkerStart.Y = ClientRectangle.Top + cellPaddingHeight
+
+        WinMarkerEnd.X = ClientRectangle.Width \ 2
+        WinMarkerEnd.Y = ClientSize.Height - cellPaddingHeight
+
+        WinMarkerVisable = True
+
+    End Sub
+
+    Private Sub MarkWinningLeftColumn()
+
+        WinMarkerStart.X = ClientRectangle.Width \ 6
+        WinMarkerStart.Y = ClientRectangle.Top + cellPaddingHeight
+
+        WinMarkerEnd.X = ClientRectangle.Width \ 6
+        WinMarkerEnd.Y = ClientSize.Height - cellPaddingHeight
+
+        WinMarkerVisable = True
+
+    End Sub
+
+    Private Sub MarkWinningBottomRow()
+
+        WinMarkerStart.X = ClientRectangle.Left + cellPaddingWidth
+        WinMarkerStart.Y = ClientSize.Height - ClientSize.Height \ 6
+
+        WinMarkerEnd.X = ClientRectangle.Right - cellPaddingWidth
+        WinMarkerEnd.Y = ClientSize.Height - ClientSize.Height \ 6
+
+        WinMarkerVisable = True
+
+    End Sub
+
+    Private Sub MarkWinningMidRow()
+
+        WinMarkerStart.X = ClientRectangle.Left + cellPaddingWidth
+        WinMarkerStart.Y = ClientSize.Height \ 2
+
+        WinMarkerEnd.X = ClientRectangle.Right - cellPaddingWidth
+        WinMarkerEnd.Y = ClientSize.Height \ 2
+
+        WinMarkerVisable = True
+
+    End Sub
+
+    Private Sub MarkWinningTopRow()
+
+        WinMarkerStart.X = ClientRectangle.Left + cellPaddingWidth
+        WinMarkerStart.Y = ClientSize.Height \ 6
+
+        WinMarkerEnd.X = ClientRectangle.Right - cellPaddingWidth
+        WinMarkerEnd.Y = ClientSize.Height \ 6
+
+        WinMarkerVisable = True
+
+    End Sub
+
+    Private Sub MarkWinningTopRightBottomLeft()
+
+        WinMarkerStart.X = ClientRectangle.Right - cellPaddingWidth
+        WinMarkerStart.Y = ClientRectangle.Top + cellPaddingHeight
+
+        WinMarkerEnd.X = ClientRectangle.Left + cellPaddingWidth
+        WinMarkerEnd.Y = ClientRectangle.Bottom - cellPaddingHeight
+
+        WinMarkerVisable = True
+
+    End Sub
+
+    Private Sub MarkWinningTopLeftBottomRight()
+
+        WinMarkerStart.X = ClientRectangle.Left + cellPaddingWidth
+        WinMarkerStart.Y = ClientRectangle.Top + cellPaddingHeight
+
+        WinMarkerEnd.X = ClientRectangle.Right - cellPaddingWidth
+        WinMarkerEnd.Y = ClientRectangle.Bottom - cellPaddingHeight
+
+        WinMarkerVisable = True
+
+    End Sub
 
     Private Function CheckForDraw() As Boolean
 
