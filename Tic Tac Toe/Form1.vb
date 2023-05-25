@@ -17,12 +17,9 @@ Public Class Form1
 
     Private ReadOnly FPSFont As New Font(FontFamily.GenericSansSerif, 25)
 
-    Private Rect As New Rectangle(0, 100, 300, 100)
-
     Private WinMarkerStart As Point
     Private WinMarkerEnd As Point
     Private WinMarkerVisable As Boolean = False
-
 
     Enum Cell
         Empty
@@ -30,46 +27,29 @@ Public Class Form1
         O
     End Enum
 
-    Dim board(2, 2) As Cell
-
-    Enum Player
-        X
-        O
+    Enum Win
+        Draw
+        Computer
+        Human
     End Enum
 
-    Dim currentPlayer As Player = Player.X
+    Private Winner As Win = Win.Draw
 
-    Dim cellSize As Integer = 200
-    Dim cellPadding As Integer = 30
-    'Dim cellPaddingWidth As Integer = 30
-    'Dim OPen As New Pen(Brushes.Red, 10)
-    'Dim XPen As New Pen(Brushes.Blue, 10)
-    'Dim LinePen As New Pen(Brushes.White, 8)
-    Dim XOffset As Integer = 100
+    Private ReadOnly Board(2, 2) As Cell
 
-    Dim cellwidth As Integer = 0
-    Dim cellPaddingWidth As Integer = 0
-    Dim cellHeight As Integer = 0
-    Dim cellPaddingHeight As Integer = 0
+    Dim CurrentPlayer As Cell = Cell.X
+    Dim CellWidth As Integer = 0
+    Dim CellPaddingWidth As Integer = 0
+    Dim CellHeight As Integer = 0
+    Dim CellPaddingHeight As Integer = 0
     Dim LinePenWidth As Integer = 0
     Dim OPenWidth As Integer = 0
     Dim XPenWidth As Integer = 0
-    Dim OneThirdClientWidth As Integer = 0
-
+    Dim WinPenWidth As Integer = 0
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        'currentPlayer = Player.X
-
         InitializeBoard()
-
-        'board(1, 1) = Cell.O
-        'board(0, 0) = Cell.X
-        'board(2, 2) = Cell.X
-
-        'board(2, 0) = Cell.X
-
-        'board(0, 2) = Cell.O
 
         Text = "Tic Tac Toe - Code with Joe"
 
@@ -87,11 +67,11 @@ Public Class Form1
 
     Private Sub InitializeBoard()
 
-        For x = 0 To 2
+        For X = 0 To 2
 
-            For y = 0 To 2
+            For Y = 0 To 2
 
-                board(x, y) = Cell.Empty
+                Board(X, Y) = Cell.Empty
 
             Next
         Next
@@ -118,20 +98,6 @@ Public Class Form1
 
     Private Sub UpdateGame()
 
-        Rect.X += 2
-
-        Rect.Width = ClientSize.Width \ 6
-
-        If Rect.X > ClientSize.Width Then
-
-            Rect.X = 0 - Rect.Width
-
-        End If
-
-        Rect.Height = ClientSize.Height \ 10
-
-        Rect.Y = (ClientSize.Height \ 2) - (Rect.Height \ 2)
-
     End Sub
     Private Sub InitBuffer()
 
@@ -154,15 +120,7 @@ Public Class Form1
 
         DrawXsAndOs()
 
-        If WinMarkerVisable = True Then
-
-            Dim WinPen As New Pen(Brushes.Purple, XPenWidth)
-
-            Buffer.Graphics.DrawLine(WinPen, WinMarkerStart, WinMarkerEnd)
-
-            WinPen.Dispose()
-
-        End If
+        DrawWinMarker()
 
         'Draw frames per second display.
         'Buffer.Graphics.DrawString(FPS & " FPS", FPSFont, Brushes.MediumOrchid, 0, ClientRectangle.Bottom - 75)
@@ -195,19 +153,35 @@ Public Class Form1
 
     End Sub
 
+    Private Sub DrawWinMarker()
+
+        If WinMarkerVisable = True Then
+
+            Dim WinPen As New Pen(Brushes.Purple, WinPenWidth)
+
+            Buffer.Graphics.DrawLine(WinPen, WinMarkerStart, WinMarkerEnd)
+
+            Buffer.Graphics.DrawString(Winner.ToString, FPSFont, Brushes.White, 0, ClientRectangle.Bottom - 75)
+
+            WinPen.Dispose()
+
+        End If
+
+    End Sub
+
     Private Sub DrawXsAndOs()
 
         For x = 0 To 2
             For y = 0 To 2
 
                 'Does the cell contain an x?
-                If board(x, y) = Cell.X Then
+                If Board(x, y) = Cell.X Then
                     'Yes, the cell contains an x.
 
                     DrawX(x, y)
 
                     'Does the cell contain an o?
-                ElseIf board(x, y) = Cell.O Then
+                ElseIf Board(x, y) = Cell.O Then
                     'Yes, the cell contains an o.
 
                     DrawO(x, y)
@@ -220,19 +194,19 @@ Public Class Form1
 
     Private Sub DrawX(x As Integer, y As Integer)
 
-        Dim XPen As New Pen(Brushes.Blue, XPenWidth)
+        Dim XPen As New Pen(Color.Blue, XPenWidth)
 
         Buffer.Graphics.DrawLine(XPen,
-                                 x * cellwidth + cellPaddingWidth,
-                                 y * cellHeight + cellPaddingHeight,
-                                 (x + 1) * cellwidth - cellPaddingWidth,
-                                 (y + 1) * cellHeight - cellPaddingHeight)
+                                 x * CellWidth + CellPaddingWidth,
+                                 y * CellHeight + CellPaddingHeight,
+                                 (x + 1) * CellWidth - CellPaddingWidth,
+                                 (y + 1) * CellHeight - CellPaddingHeight)
 
         Buffer.Graphics.DrawLine(XPen,
-                                 x * cellwidth + cellPaddingWidth,
-                                 (y + 1) * cellHeight - cellPaddingHeight,
-                                 (x + 1) * cellwidth - cellPaddingWidth,
-                                 y * cellHeight + cellPaddingHeight)
+                                 x * CellWidth + CellPaddingWidth,
+                                 (y + 1) * CellHeight - CellPaddingHeight,
+                                 (x + 1) * CellWidth - CellPaddingWidth,
+                                 y * CellHeight + CellPaddingHeight)
 
         XPen.Dispose()
 
@@ -240,13 +214,13 @@ Public Class Form1
 
     Private Sub DrawO(x As Integer, y As Integer)
 
-        Dim OPen As New Pen(Brushes.Red, OPenWidth)
+        Dim OPen As New Pen(Color.Red, OPenWidth)
 
         Buffer.Graphics.DrawEllipse(OPen,
-                                    x * cellwidth + cellPaddingWidth,
-                                    y * cellHeight + cellPaddingHeight,
-                                    cellwidth - 2 * cellPaddingWidth,
-                                    cellHeight - 2 * cellPaddingHeight)
+                                    x * CellWidth + CellPaddingWidth,
+                                    y * CellHeight + CellPaddingHeight,
+                                    CellWidth - 2 * CellPaddingWidth,
+                                    CellHeight - 2 * CellPaddingHeight)
 
         OPen.Dispose()
 
@@ -254,14 +228,14 @@ Public Class Form1
 
     Private Sub DrawGridLines()
 
-        Dim LinePen As New Pen(Brushes.White, LinePenWidth)
+        Dim LinePen As New Pen(Color.White, LinePenWidth)
 
         ' Draw vertical lines
-        Buffer.Graphics.DrawLine(LinePen, cellwidth, 0, cellwidth, ClientSize.Height)
+        Buffer.Graphics.DrawLine(LinePen, CellWidth, 0, CellWidth, ClientSize.Height)
         Buffer.Graphics.DrawLine(LinePen, ClientSize.Width * 2 \ 3, 0, ClientSize.Width * 2 \ 3, ClientSize.Height)
 
         ' Draw horizontal lines
-        Buffer.Graphics.DrawLine(LinePen, 0, cellHeight, ClientSize.Width, ClientSize.Height \ 3)
+        Buffer.Graphics.DrawLine(LinePen, 0, CellHeight, ClientSize.Width, ClientSize.Height \ 3)
         Buffer.Graphics.DrawLine(LinePen, 0, ClientSize.Height * 2 \ 3, ClientSize.Width, ClientSize.Height * 2 \ 3)
 
         LinePen.Dispose()
@@ -298,26 +272,23 @@ Public Class Form1
 
     Private Sub Form1_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
 
-        'cellSize = ClientSize.Height \ 3
-        OneThirdClientWidth = ClientSize.Width \ 3
+        CellWidth = ClientSize.Width \ 3
+        CellPaddingWidth = CellWidth \ 8
+        CellHeight = ClientSize.Height \ 3
+        CellPaddingHeight = CellHeight \ 8
 
-        cellwidth = ClientSize.Width \ 3
-        cellPaddingWidth = cellwidth \ 8
-        cellHeight = ClientSize.Height \ 3
-        cellPaddingHeight = cellHeight \ 8
+        If CellWidth <= CellHeight Then
 
-
-        If cellwidth <= cellHeight Then
-
-            LinePenWidth = cellwidth \ 32
-            OPenWidth = cellwidth \ 16
-            XPenWidth = cellwidth \ 16
-
+            LinePenWidth = CellWidth \ 32
+            OPenWidth = CellWidth \ 16
+            XPenWidth = CellWidth \ 16
+            WinPenWidth = CellWidth \ 12
         Else
 
-            LinePenWidth = cellHeight \ 32
-            OPenWidth = cellHeight \ 16
-            XPenWidth = cellHeight \ 16
+            LinePenWidth = CellHeight \ 32
+            OPenWidth = CellHeight \ 16
+            XPenWidth = CellHeight \ 16
+            WinPenWidth = CellHeight \ 12
 
         End If
 
@@ -331,29 +302,33 @@ Public Class Form1
 
     Private Sub UpdateMouse(e As MouseEventArgs)
 
-        Dim x As Integer = MouseToBoardX(e)
+        Dim X As Integer = MouseToBoardX(e)
 
-        Dim y As Integer = MouseToBoardY(e)
+        Dim Y As Integer = MouseToBoardY(e)
 
-        If board(x, y) = Cell.Empty Then
+        If Board(X, Y) = Cell.Empty Then
 
-            If currentPlayer = Player.X Then
+            If CurrentPlayer = Cell.X Then
 
                 My.Computer.Audio.Play(My.Resources.tone700freq, AudioPlayMode.Background)
 
-                board(x, y) = Cell.X
+                Board(X, Y) = Cell.X
 
-                currentPlayer = Player.O
+                CurrentPlayer = Cell.O
 
             End If
 
             If CheckForWin(Cell.X) Then
+
+                Winner = Win.Human
 
                 MsgBox("You win!", MsgBoxStyle.DefaultButton1, "End Game")
 
                 ResetGame()
 
             ElseIf CheckForDraw() Then
+
+                Winner = Win.Draw
 
                 MsgBox("Draw!", MsgBoxStyle.DefaultButton1, "End Game")
 
@@ -366,11 +341,15 @@ Public Class Form1
 
                 If CheckForWin(Cell.O) Then
 
+                    Winner = Win.Computer
+
                     MsgBox("Computer wins!", MsgBoxStyle.DefaultButton1, "End Game")
 
                     ResetGame()
 
                 ElseIf CheckForDraw() Then
+
+                    Winner = Win.Draw
 
                     MsgBox("Draw!", MsgBoxStyle.DefaultButton1, "End Game")
 
@@ -378,7 +357,7 @@ Public Class Form1
 
                 Else
 
-                    currentPlayer = Player.X
+                    CurrentPlayer = Cell.X
 
                 End If
 
@@ -388,17 +367,134 @@ Public Class Form1
 
     End Sub
 
+    Private Sub ComputerMove()
+
+        Dim Rnd As New Random()
+
+        Dim X, Y As Integer
+
+        Do
+            Randomize()
+
+            'Get random number from 0 to 2.
+            X = Rnd.Next(3)
+
+            Randomize()
+
+            Y = Rnd.Next(3)
+
+        Loop While Board(X, Y) <> Cell.Empty
+
+        Board(X, Y) = Cell.O
+
+    End Sub
+
+    Private Function CheckForWin(player As Cell) As Boolean
+
+        ' Check rows ---
+        For Y = 0 To 2
+
+            If Board(0, Y) = player AndAlso Board(1, Y) = player AndAlso Board(2, Y) = player Then
+
+                Select Case Y
+                    Case 0 'Top Row
+
+                        MarkWinningTopRow()
+
+                    Case 1 'Mid Row
+
+                        MarkWinningMidRow()
+
+                    Case 2 'Bottom row
+
+                        MarkWinningBottomRow()
+
+                End Select
+
+                Return True
+
+            End If
+
+        Next
+
+        ' Check columns |
+        For X = 0 To 2
+
+            If Board(X, 0) = player AndAlso Board(X, 1) = player AndAlso Board(X, 2) = player Then
+
+                Select Case X
+                    Case 0
+
+                        MarkWinningLeftColumn()
+
+                    Case 1
+
+                        MarkWinningMidColumn()
+
+                    Case 2
+
+                        MarkWinningRightColumn()
+
+                End Select
+
+                Return True
+
+            End If
+
+        Next
+
+        ' Check diagonals
+        If Board(0, 0) = player AndAlso Board(1, 1) = player AndAlso Board(2, 2) = player Then
+
+            MarkWinningTopLeftBottomRight()
+
+            Return True
+
+        End If
+
+        If Board(2, 0) = player AndAlso Board(1, 1) = player AndAlso Board(0, 2) = player Then
+
+            MarkWinningTopRightBottomLeft()
+
+            Return True
+
+        End If
+
+        Return False
+
+    End Function
+
+    Private Function CheckForDraw() As Boolean
+
+        For X = 0 To 2
+
+            For Y = 0 To 2
+
+                If Board(X, Y) = Cell.Empty Then
+
+                    Return False
+
+                End If
+
+            Next
+
+        Next
+
+        Return True
+
+    End Function
+
     Private Sub ResetGame()
 
         WinMarkerVisable = False
 
-        For x = 0 To 2
-            For y = 0 To 2
-                board(x, y) = Cell.Empty
+        For X = 0 To 2
+            For Y = 0 To 2
+                Board(X, Y) = Cell.Empty
             Next
         Next
 
-        currentPlayer = Player.X
+        CurrentPlayer = Cell.X
 
     End Sub
 
@@ -430,113 +526,13 @@ Public Class Form1
 
     End Function
 
-    Private Sub ComputerMove()
-
-        Dim rnd As New Random()
-
-        Dim x, y As Integer
-
-        Do
-            'Initialize random-number generator.
-            Randomize()
-
-            x = rnd.Next(3)
-
-            'Initialize random-number generator.
-            Randomize()
-
-            y = rnd.Next(3)
-
-        Loop While board(x, y) <> Cell.Empty
-
-        'My.Computer.Audio.Play(My.Resources.tone700freq, AudioPlayMode.Background)
-
-        board(x, y) = Cell.O
-
-    End Sub
-
-    Private Function CheckForWin(player As Cell) As Boolean
-
-        ' Check rows ---
-        For y = 0 To 2
-
-            If board(0, y) = player AndAlso board(1, y) = player AndAlso board(2, y) = player Then
-
-                Select Case y
-                    Case 0 'Top Row
-
-                        MarkWinningTopRow()
-
-                    Case 1 'Mid Row
-
-                        MarkWinningMidRow()
-
-                    Case 2 'Bottom row
-
-                        MarkWinningBottomRow()
-
-                End Select
-
-                Return True
-
-            End If
-
-        Next
-
-        ' Check columns |
-        For x = 0 To 2
-
-            If board(x, 0) = player AndAlso board(x, 1) = player AndAlso board(x, 2) = player Then
-
-                Select Case x
-                    Case 0
-
-                        MarkWinningLeftColumn()
-
-                    Case 1
-
-                        MarkWinningMidColumn()
-
-                    Case 2
-
-                        MarkWinningRightColumn()
-
-                End Select
-
-                Return True
-
-            End If
-
-        Next
-
-        ' Check diagonals
-        If board(0, 0) = player AndAlso board(1, 1) = player AndAlso board(2, 2) = player Then
-
-            MarkWinningTopLeftBottomRight()
-
-            Return True
-
-        End If
-
-        If board(2, 0) = player AndAlso board(1, 1) = player AndAlso board(0, 2) = player Then
-
-            MarkWinningTopRightBottomLeft()
-
-            Return True
-
-        End If
-
-        Return False
-
-    End Function
-
     Private Sub MarkWinningRightColumn()
 
         WinMarkerStart.X = ClientRectangle.Width - ClientRectangle.Width \ 6
-        WinMarkerStart.Y = ClientRectangle.Top + cellPaddingHeight
+        WinMarkerStart.Y = ClientRectangle.Top + CellPaddingHeight
 
         WinMarkerEnd.X = ClientRectangle.Width - ClientRectangle.Width \ 6
-        WinMarkerEnd.Y = ClientSize.Height - cellPaddingHeight
+        WinMarkerEnd.Y = ClientSize.Height - CellPaddingHeight
 
         WinMarkerVisable = True
 
@@ -545,10 +541,10 @@ Public Class Form1
     Private Sub MarkWinningMidColumn()
 
         WinMarkerStart.X = ClientRectangle.Width \ 2
-        WinMarkerStart.Y = ClientRectangle.Top + cellPaddingHeight
+        WinMarkerStart.Y = ClientRectangle.Top + CellPaddingHeight
 
         WinMarkerEnd.X = ClientRectangle.Width \ 2
-        WinMarkerEnd.Y = ClientSize.Height - cellPaddingHeight
+        WinMarkerEnd.Y = ClientSize.Height - CellPaddingHeight
 
         WinMarkerVisable = True
 
@@ -557,10 +553,10 @@ Public Class Form1
     Private Sub MarkWinningLeftColumn()
 
         WinMarkerStart.X = ClientRectangle.Width \ 6
-        WinMarkerStart.Y = ClientRectangle.Top + cellPaddingHeight
+        WinMarkerStart.Y = ClientRectangle.Top + CellPaddingHeight
 
         WinMarkerEnd.X = ClientRectangle.Width \ 6
-        WinMarkerEnd.Y = ClientSize.Height - cellPaddingHeight
+        WinMarkerEnd.Y = ClientSize.Height - CellPaddingHeight
 
         WinMarkerVisable = True
 
@@ -568,10 +564,10 @@ Public Class Form1
 
     Private Sub MarkWinningBottomRow()
 
-        WinMarkerStart.X = ClientRectangle.Left + cellPaddingWidth
+        WinMarkerStart.X = ClientRectangle.Left + CellPaddingWidth
         WinMarkerStart.Y = ClientSize.Height - ClientSize.Height \ 6
 
-        WinMarkerEnd.X = ClientRectangle.Right - cellPaddingWidth
+        WinMarkerEnd.X = ClientRectangle.Right - CellPaddingWidth
         WinMarkerEnd.Y = ClientSize.Height - ClientSize.Height \ 6
 
         WinMarkerVisable = True
@@ -580,10 +576,10 @@ Public Class Form1
 
     Private Sub MarkWinningMidRow()
 
-        WinMarkerStart.X = ClientRectangle.Left + cellPaddingWidth
+        WinMarkerStart.X = ClientRectangle.Left + CellPaddingWidth
         WinMarkerStart.Y = ClientSize.Height \ 2
 
-        WinMarkerEnd.X = ClientRectangle.Right - cellPaddingWidth
+        WinMarkerEnd.X = ClientRectangle.Right - CellPaddingWidth
         WinMarkerEnd.Y = ClientSize.Height \ 2
 
         WinMarkerVisable = True
@@ -592,10 +588,10 @@ Public Class Form1
 
     Private Sub MarkWinningTopRow()
 
-        WinMarkerStart.X = ClientRectangle.Left + cellPaddingWidth
+        WinMarkerStart.X = ClientRectangle.Left + CellPaddingWidth
         WinMarkerStart.Y = ClientSize.Height \ 6
 
-        WinMarkerEnd.X = ClientRectangle.Right - cellPaddingWidth
+        WinMarkerEnd.X = ClientRectangle.Right - CellPaddingWidth
         WinMarkerEnd.Y = ClientSize.Height \ 6
 
         WinMarkerVisable = True
@@ -604,11 +600,11 @@ Public Class Form1
 
     Private Sub MarkWinningTopRightBottomLeft()
 
-        WinMarkerStart.X = ClientRectangle.Right - cellPaddingWidth
-        WinMarkerStart.Y = ClientRectangle.Top + cellPaddingHeight
+        WinMarkerStart.X = ClientRectangle.Right - CellPaddingWidth
+        WinMarkerStart.Y = ClientRectangle.Top + CellPaddingHeight
 
-        WinMarkerEnd.X = ClientRectangle.Left + cellPaddingWidth
-        WinMarkerEnd.Y = ClientRectangle.Bottom - cellPaddingHeight
+        WinMarkerEnd.X = ClientRectangle.Left + CellPaddingWidth
+        WinMarkerEnd.Y = ClientRectangle.Bottom - CellPaddingHeight
 
         WinMarkerVisable = True
 
@@ -616,35 +612,15 @@ Public Class Form1
 
     Private Sub MarkWinningTopLeftBottomRight()
 
-        WinMarkerStart.X = ClientRectangle.Left + cellPaddingWidth
-        WinMarkerStart.Y = ClientRectangle.Top + cellPaddingHeight
+        WinMarkerStart.X = ClientRectangle.Left + CellPaddingWidth
+        WinMarkerStart.Y = ClientRectangle.Top + CellPaddingHeight
 
-        WinMarkerEnd.X = ClientRectangle.Right - cellPaddingWidth
-        WinMarkerEnd.Y = ClientRectangle.Bottom - cellPaddingHeight
+        WinMarkerEnd.X = ClientRectangle.Right - CellPaddingWidth
+        WinMarkerEnd.Y = ClientRectangle.Bottom - CellPaddingHeight
 
         WinMarkerVisable = True
 
     End Sub
-
-    Private Function CheckForDraw() As Boolean
-
-        For x = 0 To 2
-
-            For y = 0 To 2
-
-                If board(x, y) = Cell.Empty Then
-
-                    Return False
-
-                End If
-
-            Next
-
-        Next
-
-        Return True
-
-    End Function
 
 End Class
 
