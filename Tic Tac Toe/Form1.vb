@@ -339,7 +339,7 @@ Public Class Form1
 
             If currentPlayer = Player.X Then
 
-                'My.Computer.Audio.Play(My.Resources.tone400freq, AudioPlayMode.Background)
+                My.Computer.Audio.Play(My.Resources.tone700freq, AudioPlayMode.Background)
 
                 board(x, y) = Cell.X
 
