@@ -464,28 +464,29 @@ Public Class Form1
 
                 Select Case y
                     Case 0 'Top row
-                        WinMarkerVisable = True
-                        'ClientSize.Height \ 6
+
                         WinMarkerStart.X = ClientRectangle.Left + cellPaddingWidth
                         WinMarkerStart.Y = ClientSize.Height \ 6
                         WinMarkerEnd.X = ClientRectangle.Right - cellPaddingWidth
                         WinMarkerEnd.Y = ClientSize.Height \ 6
+
                     Case 1 'Mid row
-                        WinMarkerVisable = True
-                        'ClientSize.Height \ 6
+
                         WinMarkerStart.X = ClientRectangle.Left + cellPaddingWidth
                         WinMarkerStart.Y = ClientSize.Height \ 2
                         WinMarkerEnd.X = ClientRectangle.Right - cellPaddingWidth
                         WinMarkerEnd.Y = ClientSize.Height \ 2
-                    Case 2 'Bottom rom
-                        WinMarkerVisable = True
-                        'ClientSize.Height \ 6
+
+                    Case 2 'Bottom row
+
                         WinMarkerStart.X = ClientRectangle.Left + cellPaddingWidth
                         WinMarkerStart.Y = ClientSize.Height - ClientSize.Height \ 6
                         WinMarkerEnd.X = ClientRectangle.Right - cellPaddingWidth
                         WinMarkerEnd.Y = ClientSize.Height - ClientSize.Height \ 6
+
                 End Select
 
+                WinMarkerVisable = True
 
                 Return True
 
@@ -498,6 +499,32 @@ Public Class Form1
 
             If board(x, 0) = player AndAlso board(x, 1) = player AndAlso board(x, 2) = player Then
 
+                Select Case x
+                    Case 0
+
+                        WinMarkerStart.X = ClientRectangle.Width \ 6
+                        WinMarkerStart.Y = ClientRectangle.Top + cellPaddingHeight
+                        WinMarkerEnd.X = ClientRectangle.Width \ 6
+                        WinMarkerEnd.Y = ClientSize.Height - cellPaddingHeight
+
+                    Case 1
+
+                        WinMarkerStart.X = ClientRectangle.Width \ 2
+                        WinMarkerStart.Y = ClientRectangle.Top + cellPaddingHeight
+                        WinMarkerEnd.X = ClientRectangle.Width \ 2
+                        WinMarkerEnd.Y = ClientSize.Height - cellPaddingHeight
+
+                    Case 2
+
+                        WinMarkerStart.X = ClientRectangle.Width - ClientRectangle.Width \ 6
+                        WinMarkerStart.Y = ClientRectangle.Top + cellPaddingHeight
+                        WinMarkerEnd.X = ClientRectangle.Width - ClientRectangle.Width \ 6
+                        WinMarkerEnd.Y = ClientSize.Height - cellPaddingHeight
+
+                End Select
+
+                WinMarkerVisable = True
+
                 Return True
 
             End If
@@ -507,17 +534,25 @@ Public Class Form1
         ' Check diagonals
         If board(0, 0) = player AndAlso board(1, 1) = player AndAlso board(2, 2) = player Then
 
-            WinMarkerVisable = True
             WinMarkerStart.X = ClientRectangle.Left + cellPaddingWidth
             WinMarkerStart.Y = ClientRectangle.Top + cellPaddingHeight
             WinMarkerEnd.X = ClientRectangle.Right - cellPaddingWidth
             WinMarkerEnd.Y = ClientRectangle.Bottom - cellPaddingHeight
+
+            WinMarkerVisable = True
 
             Return True
 
         End If
 
         If board(2, 0) = player AndAlso board(1, 1) = player AndAlso board(0, 2) = player Then
+
+            WinMarkerStart.X = ClientRectangle.Right - cellPaddingWidth
+            WinMarkerStart.Y = ClientRectangle.Top + cellPaddingHeight
+            WinMarkerEnd.X = ClientRectangle.Left + cellPaddingWidth
+            WinMarkerEnd.Y = ClientRectangle.Bottom - cellPaddingHeight
+
+            WinMarkerVisable = True
 
             Return True
 
