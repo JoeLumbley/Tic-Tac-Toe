@@ -153,147 +153,6 @@ Public Class Form1
 
     End Sub
 
-    Private Sub DrawWinMarker()
-
-        If WinMarkerVisable = True Then
-
-            Dim WinPen As New Pen(Brushes.Purple, WinPenWidth)
-
-            Buffer.Graphics.DrawLine(WinPen, WinMarkerStart, WinMarkerEnd)
-
-            Buffer.Graphics.DrawString(Winner.ToString, FPSFont, Brushes.White, 0, ClientRectangle.Bottom - 75)
-
-            WinPen.Dispose()
-
-        End If
-
-    End Sub
-
-    Private Sub DrawXsAndOs()
-
-        For x = 0 To 2
-            For y = 0 To 2
-
-                'Does the cell contain an x?
-                If Board(x, y) = Cell.X Then
-                    'Yes, the cell contains an x.
-
-                    DrawX(x, y)
-
-                    'Does the cell contain an o?
-                ElseIf Board(x, y) = Cell.O Then
-                    'Yes, the cell contains an o.
-
-                    DrawO(x, y)
-
-                End If
-            Next
-        Next
-
-    End Sub
-
-    Private Sub DrawX(x As Integer, y As Integer)
-
-        Dim XPen As New Pen(Color.Blue, XPenWidth)
-
-        Buffer.Graphics.DrawLine(XPen,
-                                 x * CellWidth + CellPaddingWidth,
-                                 y * CellHeight + CellPaddingHeight,
-                                 (x + 1) * CellWidth - CellPaddingWidth,
-                                 (y + 1) * CellHeight - CellPaddingHeight)
-
-        Buffer.Graphics.DrawLine(XPen,
-                                 x * CellWidth + CellPaddingWidth,
-                                 (y + 1) * CellHeight - CellPaddingHeight,
-                                 (x + 1) * CellWidth - CellPaddingWidth,
-                                 y * CellHeight + CellPaddingHeight)
-
-        XPen.Dispose()
-
-    End Sub
-
-    Private Sub DrawO(x As Integer, y As Integer)
-
-        Dim OPen As New Pen(Color.Red, OPenWidth)
-
-        Buffer.Graphics.DrawEllipse(OPen,
-                                    x * CellWidth + CellPaddingWidth,
-                                    y * CellHeight + CellPaddingHeight,
-                                    CellWidth - 2 * CellPaddingWidth,
-                                    CellHeight - 2 * CellPaddingHeight)
-
-        OPen.Dispose()
-
-    End Sub
-
-    Private Sub DrawGridLines()
-
-        Dim LinePen As New Pen(Color.White, LinePenWidth)
-
-        ' Draw vertical lines
-        Buffer.Graphics.DrawLine(LinePen, CellWidth, 0, CellWidth, ClientSize.Height)
-        Buffer.Graphics.DrawLine(LinePen, ClientSize.Width * 2 \ 3, 0, ClientSize.Width * 2 \ 3, ClientSize.Height)
-
-        ' Draw horizontal lines
-        Buffer.Graphics.DrawLine(LinePen, 0, CellHeight, ClientSize.Width, ClientSize.Height \ 3)
-        Buffer.Graphics.DrawLine(LinePen, 0, ClientSize.Height * 2 \ 3, ClientSize.Width, ClientSize.Height * 2 \ 3)
-
-        LinePen.Dispose()
-
-    End Sub
-
-    Private Sub UpdateFrameCounter()
-
-        TimeElapsed = Now.Subtract(StartTime)
-
-        SecondsElapsed = TimeElapsed.TotalSeconds
-
-        If SecondsElapsed < 1 Then
-
-            FrameCount += 1
-
-        Else
-
-            FPS = FrameCount.ToString
-
-            FrameCount = 0
-
-            StartTime = Now
-
-        End If
-
-    End Sub
-
-    Protected Overrides Sub OnPaintBackground(ByVal e As PaintEventArgs)
-
-        'Intentionally left blank. Do not remove.
-
-    End Sub
-
-    Private Sub Form1_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
-
-        CellWidth = ClientSize.Width \ 3
-        CellPaddingWidth = CellWidth \ 8
-        CellHeight = ClientSize.Height \ 3
-        CellPaddingHeight = CellHeight \ 8
-
-        If CellWidth <= CellHeight Then
-
-            LinePenWidth = CellWidth \ 32
-            OPenWidth = CellWidth \ 16
-            XPenWidth = CellWidth \ 16
-            WinPenWidth = CellWidth \ 12
-        Else
-
-            LinePenWidth = CellHeight \ 32
-            OPenWidth = CellHeight \ 16
-            XPenWidth = CellHeight \ 16
-            WinPenWidth = CellHeight \ 12
-
-        End If
-
-    End Sub
-
     Private Sub Form1_MouseClick(sender As Object, e As MouseEventArgs) Handles MyBase.MouseClick
 
         UpdateMouse(e)
@@ -498,6 +357,119 @@ Public Class Form1
 
     End Sub
 
+    Private Sub DrawXsAndOs()
+
+        For x = 0 To 2
+            For y = 0 To 2
+
+                'Does the cell contain an x?
+                If Board(x, y) = Cell.X Then
+                    'Yes, the cell contains an x.
+
+                    DrawX(x, y)
+
+                    'Does the cell contain an o?
+                ElseIf Board(x, y) = Cell.O Then
+                    'Yes, the cell contains an o.
+
+                    DrawO(x, y)
+
+                End If
+            Next
+        Next
+
+    End Sub
+
+    Private Sub DrawX(x As Integer, y As Integer)
+
+        Dim XPen As New Pen(Color.Blue, XPenWidth)
+
+        Buffer.Graphics.DrawLine(XPen,
+                                 x * CellWidth + CellPaddingWidth,
+                                 y * CellHeight + CellPaddingHeight,
+                                 (x + 1) * CellWidth - CellPaddingWidth,
+                                 (y + 1) * CellHeight - CellPaddingHeight)
+
+        Buffer.Graphics.DrawLine(XPen,
+                                 x * CellWidth + CellPaddingWidth,
+                                 (y + 1) * CellHeight - CellPaddingHeight,
+                                 (x + 1) * CellWidth - CellPaddingWidth,
+                                 y * CellHeight + CellPaddingHeight)
+
+        XPen.Dispose()
+
+    End Sub
+
+    Private Sub DrawO(x As Integer, y As Integer)
+
+        Dim OPen As New Pen(Color.Red, OPenWidth)
+
+        Buffer.Graphics.DrawEllipse(OPen,
+                                    x * CellWidth + CellPaddingWidth,
+                                    y * CellHeight + CellPaddingHeight,
+                                    CellWidth - 2 * CellPaddingWidth,
+                                    CellHeight - 2 * CellPaddingHeight)
+
+        OPen.Dispose()
+
+    End Sub
+
+    Private Sub DrawGridLines()
+
+        Dim LinePen As New Pen(Color.White, LinePenWidth)
+
+        ' Draw vertical lines
+        Buffer.Graphics.DrawLine(LinePen, CellWidth, 0, CellWidth, ClientSize.Height)
+        Buffer.Graphics.DrawLine(LinePen, ClientSize.Width * 2 \ 3, 0, ClientSize.Width * 2 \ 3, ClientSize.Height)
+
+        ' Draw horizontal lines
+        Buffer.Graphics.DrawLine(LinePen, 0, CellHeight, ClientSize.Width, ClientSize.Height \ 3)
+        Buffer.Graphics.DrawLine(LinePen, 0, ClientSize.Height * 2 \ 3, ClientSize.Width, ClientSize.Height * 2 \ 3)
+
+        LinePen.Dispose()
+
+    End Sub
+
+    Private Sub DrawWinMarker()
+
+        If WinMarkerVisable = True Then
+
+            Dim WinPen As New Pen(Brushes.Purple, WinPenWidth)
+
+            Buffer.Graphics.DrawLine(WinPen, WinMarkerStart, WinMarkerEnd)
+
+            Buffer.Graphics.DrawString(Winner.ToString, FPSFont, Brushes.White, 0, ClientRectangle.Bottom - 75)
+
+            WinPen.Dispose()
+
+        End If
+
+    End Sub
+
+    Private Sub Form1_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
+
+        CellWidth = ClientSize.Width \ 3
+        CellPaddingWidth = CellWidth \ 8
+        CellHeight = ClientSize.Height \ 3
+        CellPaddingHeight = CellHeight \ 8
+
+        If CellWidth <= CellHeight Then
+
+            LinePenWidth = CellWidth \ 32
+            OPenWidth = CellWidth \ 16
+            XPenWidth = CellWidth \ 16
+            WinPenWidth = CellWidth \ 12
+        Else
+
+            LinePenWidth = CellHeight \ 32
+            OPenWidth = CellHeight \ 16
+            XPenWidth = CellHeight \ 16
+            WinPenWidth = CellHeight \ 12
+
+        End If
+
+    End Sub
+
     Private Function MouseToBoardY(e As MouseEventArgs) As Integer
 
         If e.Y < ClientSize.Height Then
@@ -619,6 +591,34 @@ Public Class Form1
         WinMarkerEnd.Y = ClientRectangle.Bottom - CellPaddingHeight
 
         WinMarkerVisable = True
+
+    End Sub
+
+    Private Sub UpdateFrameCounter()
+
+        TimeElapsed = Now.Subtract(StartTime)
+
+        SecondsElapsed = TimeElapsed.TotalSeconds
+
+        If SecondsElapsed < 1 Then
+
+            FrameCount += 1
+
+        Else
+
+            FPS = FrameCount.ToString
+
+            FrameCount = 0
+
+            StartTime = Now
+
+        End If
+
+    End Sub
+
+    Protected Overrides Sub OnPaintBackground(ByVal e As PaintEventArgs)
+
+        'Intentionally left blank. Do not remove.
 
     End Sub
 
