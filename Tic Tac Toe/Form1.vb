@@ -1,4 +1,6 @@
 ﻿
+Imports Microsoft.VisualBasic.Devices
+
 Public Class Form1
 
     Private Context As New BufferedGraphicsContext
@@ -47,9 +49,24 @@ Public Class Form1
     Dim XPenWidth As Integer = 0
     Dim WinPenWidth As Integer = 0
 
+    Private Enum GameStateEnum
+        StartScreen
+        Instructions
+        Playing
+        EndScreen
+    End Enum
+
+    Private GameState As GameStateEnum = GameStateEnum.Playing
+
+    Private ReadOnly AlineCenter As New StringFormat
+    Private ReadOnly AlineCenterMiddle As New StringFormat
+
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         InitializeBoard()
+
+        InitializeStringAlinement()
+
 
         Text = "Tic Tac Toe - Code with Joe"
 
@@ -98,7 +115,102 @@ Public Class Form1
 
     Private Sub UpdateGame()
 
+        Select Case GameState
+
+            Case GameStateEnum.StartScreen
+
+                'UpdateStartScreen()
+
+            Case GameStateEnum.Instructions
+
+                'UpdateInstructions()
+
+            Case GameStateEnum.Playing
+
+                UpdatePlaying()
+
+            Case GameStateEnum.EndScreen
+
+                'UpdateEndScreen()
+
+        End Select
+
     End Sub
+    Private Sub UpdatePlaying()
+
+        If CurrentPlayer = Cell.O Then
+            'Computer player's turn
+
+            ComputerMove()
+
+            If CheckForWin(Cell.O) Then
+
+                Winner = Win.Computer
+
+                'MsgBox("Computer wins!", MsgBoxStyle.DefaultButton1, "End Game")
+
+                GameState = GameStateEnum.EndScreen
+
+                'ResetGame()
+
+            ElseIf CheckForDraw() Then
+
+                Winner = Win.Draw
+
+                'MsgBox("Draw!", MsgBoxStyle.DefaultButton1, "End Game")
+
+                GameState = GameStateEnum.EndScreen
+
+                'ResetGame()
+
+            Else
+
+                CurrentPlayer = Cell.X
+
+            End If
+
+        Else
+            'Human player's turn
+
+            'If CheckForWin(Cell.X) Then
+
+            '    Winner = Win.Human
+
+            '    'MsgBox("You win!", MsgBoxStyle.DefaultButton1, "End Game")
+
+            '    GameState = GameStateEnum.EndScreen
+
+            '    'ResetGame()
+
+            'ElseIf CheckForDraw() Then
+
+            '    Winner = Win.Draw
+
+            '    'MsgBox("Draw!", MsgBoxStyle.DefaultButton1, "End Game")
+
+            '    GameState = GameStateEnum.EndScreen
+
+            '    'ResetGame()
+
+            'End If
+
+        End If
+
+        'UpdateControllerPosition()
+
+        'UpdatePaddles()
+
+        'UpdateBall()
+
+        'UpdateScore()
+
+        'CheckforEndGame()
+
+        'CheckForPause()
+
+    End Sub
+
+
     Private Sub InitBuffer()
 
         'Set context to the context of this app.
@@ -114,13 +226,7 @@ Public Class Form1
 
     Protected Overrides Sub OnPaint(ByVal e As PaintEventArgs)
 
-        Buffer.Graphics.Clear(Color.Black)
-
-        DrawGridLines()
-
-        DrawXsAndOs()
-
-        DrawWinMarker()
+        DrawGame()
 
         'Draw frames per second display.
         'Buffer.Graphics.DrawString(FPS & " FPS", FPSFont, Brushes.MediumOrchid, 0, ClientRectangle.Bottom - 75)
@@ -153,6 +259,81 @@ Public Class Form1
 
     End Sub
 
+    Private Sub DrawGame()
+
+        Buffer.Graphics.Clear(Color.Black)
+
+        Select Case GameState
+
+            Case GameStateEnum.StartScreen
+
+                'DrawStartScreen()
+
+            Case GameStateEnum.Instructions
+
+                'DrawInstructions()
+
+            Case GameStateEnum.Playing
+
+                DrawPlaying()
+
+            Case GameStateEnum.EndScreen
+
+                DrawEndScreen()
+
+        End Select
+
+    End Sub
+
+    Private Sub DrawPlaying()
+
+        DrawGridLines()
+
+        DrawXsAndOs()
+
+        'DrawWinMarker()
+
+    End Sub
+    Private Sub InitializeStringAlinement()
+
+        AlineCenter.Alignment = StringAlignment.Center
+        AlineCenterMiddle.Alignment = StringAlignment.Center
+        AlineCenterMiddle.LineAlignment = StringAlignment.Center
+
+    End Sub
+
+    Private Sub DrawEndScreen()
+
+        DrawGridLines()
+
+        DrawXsAndOs()
+
+        DrawWinMarker()
+
+        Select Case Winner
+
+            Case Win.Computer
+
+                Buffer.Graphics.DrawString("Computer wins!", FPSFont, Brushes.Black, ClientSize.Width \ 2 + 2, ClientSize.Height \ 2 + 2, AlineCenterMiddle)
+
+                Buffer.Graphics.DrawString("Computer wins!", FPSFont, Brushes.Yellow, ClientSize.Width \ 2, ClientSize.Height \ 2, AlineCenterMiddle)
+
+            Case Win.Human
+
+                Buffer.Graphics.DrawString("You win!", FPSFont, Brushes.Black, ClientSize.Width \ 2 + 2, ClientSize.Height \ 2 + 2, AlineCenterMiddle)
+
+                Buffer.Graphics.DrawString("You win!", FPSFont, Brushes.Yellow, ClientSize.Width \ 2, ClientSize.Height \ 2, AlineCenterMiddle)
+
+            Case Win.Draw
+
+                Buffer.Graphics.DrawString("Draw!", FPSFont, Brushes.Black, ClientSize.Width \ 2 + 2, ClientSize.Height \ 2 + 2, AlineCenterMiddle)
+
+                Buffer.Graphics.DrawString("Draw!", FPSFont, Brushes.Yellow, ClientSize.Width \ 2, ClientSize.Height \ 2, AlineCenterMiddle)
+
+        End Select
+
+    End Sub
+
     Private Sub Form1_MouseClick(sender As Object, e As MouseEventArgs) Handles MyBase.MouseClick
 
         UpdateMouse(e)
@@ -161,68 +342,58 @@ Public Class Form1
 
     Private Sub UpdateMouse(e As MouseEventArgs)
 
-        Dim X As Integer = MouseToBoardX(e)
 
-        Dim Y As Integer = MouseToBoardY(e)
+        Select Case GameState
 
-        If Board(X, Y) = Cell.Empty Then
+            Case GameStateEnum.Playing
 
-            If CurrentPlayer = Cell.X Then
+                Dim X As Integer = MouseToBoardX(e)
 
-                My.Computer.Audio.Play(My.Resources.tone700freq, AudioPlayMode.Background)
+                Dim Y As Integer = MouseToBoardY(e)
 
-                Board(X, Y) = Cell.X
+                If Board(X, Y) = Cell.Empty Then
 
-                CurrentPlayer = Cell.O
+                    If CurrentPlayer = Cell.X Then
 
-            End If
+                        My.Computer.Audio.Play(My.Resources.tone700freq, AudioPlayMode.Background)
 
-            If CheckForWin(Cell.X) Then
+                        Board(X, Y) = Cell.X
 
-                Winner = Win.Human
+                        CurrentPlayer = Cell.O
 
-                MsgBox("You win!", MsgBoxStyle.DefaultButton1, "End Game")
+                    End If
 
-                ResetGame()
+                    If CheckForWin(Cell.X) Then
 
-            ElseIf CheckForDraw() Then
+                        Winner = Win.Human
 
-                Winner = Win.Draw
+                        'MsgBox("You win!", MsgBoxStyle.DefaultButton1, "End Game")
 
-                MsgBox("Draw!", MsgBoxStyle.DefaultButton1, "End Game")
+                        GameState = GameStateEnum.EndScreen
 
-                ResetGame()
+                        'ResetGame()
 
-            Else
-                ' Computer player's turn
+                    ElseIf CheckForDraw() Then
 
-                ComputerMove()
+                        Winner = Win.Draw
 
-                If CheckForWin(Cell.O) Then
+                        'MsgBox("Draw!", MsgBoxStyle.DefaultButton1, "End Game")
 
-                    Winner = Win.Computer
+                        GameState = GameStateEnum.EndScreen
 
-                    MsgBox("Computer wins!", MsgBoxStyle.DefaultButton1, "End Game")
+                        'ResetGame()
 
-                    ResetGame()
-
-                ElseIf CheckForDraw() Then
-
-                    Winner = Win.Draw
-
-                    MsgBox("Draw!", MsgBoxStyle.DefaultButton1, "End Game")
-
-                    ResetGame()
-
-                Else
-
-                    CurrentPlayer = Cell.X
+                    End If
 
                 End If
 
-            End If
+            Case GameStateEnum.EndScreen
 
-        End If
+                ResetGame()
+
+                GameState = GameStateEnum.Playing
+
+        End Select
 
     End Sub
 
@@ -438,7 +609,7 @@ Public Class Form1
 
             Buffer.Graphics.DrawLine(WinPen, WinMarkerStart, WinMarkerEnd)
 
-            Buffer.Graphics.DrawString(Winner.ToString, FPSFont, Brushes.White, 0, ClientRectangle.Bottom - 75)
+            'Buffer.Graphics.DrawString(Winner.ToString, FPSFont, Brushes.White, ClientSize.Width \ 2, ClientSize.Height \ 2)
 
             WinPen.Dispose()
 
