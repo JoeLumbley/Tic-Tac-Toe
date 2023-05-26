@@ -1,5 +1,34 @@
-﻿
-Imports Microsoft.VisualBasic.Devices
+﻿'Tic Tac Toe
+'In this app we remake the classic Tic-Tac-Toe game, which is also known as
+'Noughts and Crosses or X's and O's. This version is resizable, supports
+'mouse input and has a computer player.
+'It was written in VB.NET in 2023 and is compatible with Windows 10 and 11.
+'I'm making a video to explain the code on my YouTube channel.
+'https://www.youtube.com/@codewithjoe6074
+'
+'MIT License
+'Copyright(c) 2023 Joseph W. Lumbley
+
+'Permission Is hereby granted, free Of charge, to any person obtaining a copy
+'of this software And associated documentation files (the "Software"), to deal
+'in the Software without restriction, including without limitation the rights
+'to use, copy, modify, merge, publish, distribute, sublicense, And/Or sell
+'copies of the Software, And to permit persons to whom the Software Is
+'furnished to do so, subject to the following conditions:
+
+'The above copyright notice And this permission notice shall be included In all
+'copies Or substantial portions of the Software.
+
+'THE SOFTWARE Is PROVIDED "AS IS", WITHOUT WARRANTY Of ANY KIND, EXPRESS Or
+'IMPLIED, INCLUDING BUT Not LIMITED To THE WARRANTIES Of MERCHANTABILITY,
+'FITNESS FOR A PARTICULAR PURPOSE And NONINFRINGEMENT. IN NO EVENT SHALL THE
+'AUTHORS Or COPYRIGHT HOLDERS BE LIABLE For ANY CLAIM, DAMAGES Or OTHER
+'LIABILITY, WHETHER In AN ACTION Of CONTRACT, TORT Or OTHERWISE, ARISING FROM,
+'OUT OF Or IN CONNECTION WITH THE SOFTWARE Or THE USE Or OTHER DEALINGS IN THE
+'SOFTWARE.
+
+'Monica is our an AI assistant.
+'https://monica.im/
 
 Public Class Form1
 
@@ -147,21 +176,13 @@ Public Class Form1
 
                 Winner = Win.Computer
 
-                'MsgBox("Computer wins!", MsgBoxStyle.DefaultButton1, "End Game")
-
                 GameState = GameStateEnum.EndScreen
-
-                'ResetGame()
 
             ElseIf CheckForDraw() Then
 
                 Winner = Win.Draw
 
-                'MsgBox("Draw!", MsgBoxStyle.DefaultButton1, "End Game")
-
                 GameState = GameStateEnum.EndScreen
-
-                'ResetGame()
 
             Else
 
@@ -169,47 +190,9 @@ Public Class Form1
 
             End If
 
-        Else
-            'Human player's turn
-
-            'If CheckForWin(Cell.X) Then
-
-            '    Winner = Win.Human
-
-            '    'MsgBox("You win!", MsgBoxStyle.DefaultButton1, "End Game")
-
-            '    GameState = GameStateEnum.EndScreen
-
-            '    'ResetGame()
-
-            'ElseIf CheckForDraw() Then
-
-            '    Winner = Win.Draw
-
-            '    'MsgBox("Draw!", MsgBoxStyle.DefaultButton1, "End Game")
-
-            '    GameState = GameStateEnum.EndScreen
-
-            '    'ResetGame()
-
-            'End If
-
         End If
 
-        'UpdateControllerPosition()
-
-        'UpdatePaddles()
-
-        'UpdateBall()
-
-        'UpdateScore()
-
-        'CheckforEndGame()
-
-        'CheckForPause()
-
     End Sub
-
 
     Private Sub InitBuffer()
 
@@ -367,21 +350,13 @@ Public Class Form1
 
                         Winner = Win.Human
 
-                        'MsgBox("You win!", MsgBoxStyle.DefaultButton1, "End Game")
-
                         GameState = GameStateEnum.EndScreen
-
-                        'ResetGame()
 
                     ElseIf CheckForDraw() Then
 
                         Winner = Win.Draw
 
-                        'MsgBox("Draw!", MsgBoxStyle.DefaultButton1, "End Game")
-
                         GameState = GameStateEnum.EndScreen
-
-                        'ResetGame()
 
                     End If
 
