@@ -1,8 +1,8 @@
 ﻿'Tic Tac Toe
-'In this app we remake the classic Tic-Tac-Toe game, which is also known as
+'In this app we remake the classic three in a row game, also known as
 'Noughts and Crosses or X's and O's. This version is resizable, supports
-'mouse input and has a computer player.
-'It was written in VB.NET in 2023 and is compatible with Windows 10 and 11.
+'mouse input and has a computer player. It was written in VB.NET in 2023 and
+'is compatible with Windows 10 and 11.
 'I'm making a video to explain the code on my YouTube channel.
 'https://www.youtube.com/@codewithjoe6074
 '
@@ -89,6 +89,22 @@ Public Class Form1
 
     Private ReadOnly AlineCenter As New StringFormat
     Private ReadOnly AlineCenterMiddle As New StringFormat
+
+    Private Enum Winning
+        RightColumn
+        MidColumn
+        LeftColumn
+        TopRow
+        MidRow
+        BottomRow
+        TopRightBottomLeft
+        TopLeftBottomRight
+    End Enum
+
+    Private WinningSet As Winning = Winning.TopRow
+
+
+    Private ResultFontSize As Integer = 25
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -233,9 +249,9 @@ Public Class Form1
             'I set the compositing mode to source over.
             .TextRenderingHint = Drawing.Text.TextRenderingHint.AntiAlias
             .SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
-            .CompositingQuality = Drawing2D.CompositingQuality.HighSpeed
-            .InterpolationMode = Drawing2D.InterpolationMode.Bicubic
-            .PixelOffsetMode = Drawing2D.PixelOffsetMode.HighSpeed
+            .CompositingQuality = Drawing2D.CompositingQuality.HighQuality
+            .InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
+            .PixelOffsetMode = Drawing2D.PixelOffsetMode.HighQuality
         End With
 
         UpdateFrameCounter()
@@ -293,27 +309,33 @@ Public Class Form1
 
         DrawWinMarker()
 
+
+
+        Dim ResultFont As New Font(FontFamily.GenericSansSerif, ResultFontSize)
+
         Select Case Winner
 
             Case Win.Computer
 
-                Buffer.Graphics.DrawString("Computer wins!", FPSFont, Brushes.Black, ClientSize.Width \ 2 + 2, ClientSize.Height \ 2 + 2, AlineCenterMiddle)
+                Buffer.Graphics.DrawString("Computer wins!", ResultFont, Brushes.Black, ClientSize.Width \ 2 + 2, ClientSize.Height \ 2 + 2, AlineCenterMiddle)
 
-                Buffer.Graphics.DrawString("Computer wins!", FPSFont, Brushes.Yellow, ClientSize.Width \ 2, ClientSize.Height \ 2, AlineCenterMiddle)
+                Buffer.Graphics.DrawString("Computer wins!", ResultFont, Brushes.Yellow, ClientSize.Width \ 2, ClientSize.Height \ 2, AlineCenterMiddle)
 
             Case Win.Human
 
-                Buffer.Graphics.DrawString("You win!", FPSFont, Brushes.Black, ClientSize.Width \ 2 + 2, ClientSize.Height \ 2 + 2, AlineCenterMiddle)
+                Buffer.Graphics.DrawString("You win!", ResultFont, Brushes.Black, ClientSize.Width \ 2 + 2, ClientSize.Height \ 2 + 2, AlineCenterMiddle)
 
-                Buffer.Graphics.DrawString("You win!", FPSFont, Brushes.Yellow, ClientSize.Width \ 2, ClientSize.Height \ 2, AlineCenterMiddle)
+                Buffer.Graphics.DrawString("You win!", ResultFont, Brushes.Yellow, ClientSize.Width \ 2, ClientSize.Height \ 2, AlineCenterMiddle)
 
             Case Win.Draw
 
-                Buffer.Graphics.DrawString("Draw!", FPSFont, Brushes.Black, ClientSize.Width \ 2 + 2, ClientSize.Height \ 2 + 2, AlineCenterMiddle)
+                Buffer.Graphics.DrawString("Draw!", ResultFont, Brushes.Black, ClientSize.Width \ 2 + 2, ClientSize.Height \ 2 + 2, AlineCenterMiddle)
 
-                Buffer.Graphics.DrawString("Draw!", FPSFont, Brushes.Yellow, ClientSize.Width \ 2, ClientSize.Height \ 2, AlineCenterMiddle)
+                Buffer.Graphics.DrawString("Draw!", ResultFont, Brushes.Yellow, ClientSize.Width \ 2, ClientSize.Height \ 2, AlineCenterMiddle)
 
         End Select
+
+        ResultFont.Dispose()
 
     End Sub
 
@@ -406,13 +428,21 @@ Public Class Form1
 
                         MarkWinningTopRow()
 
+                        WinningSet = Winning.TopRow
+
                     Case 1 'Mid Row
 
                         MarkWinningMidRow()
 
+                        WinningSet = Winning.MidRow
+
+
                     Case 2 'Bottom row
 
                         MarkWinningBottomRow()
+
+                        WinningSet = Winning.BottomRow
+
 
                 End Select
 
@@ -432,13 +462,22 @@ Public Class Form1
 
                         MarkWinningLeftColumn()
 
+                        WinningSet = Winning.LeftColumn
+
+
                     Case 1
 
                         MarkWinningMidColumn()
 
+                        WinningSet = Winning.MidColumn
+
+
                     Case 2
 
                         MarkWinningRightColumn()
+
+                        WinningSet = Winning.RightColumn
+
 
                 End Select
 
@@ -453,6 +492,8 @@ Public Class Form1
 
             MarkWinningTopLeftBottomRight()
 
+            WinningSet = Winning.TopLeftBottomRight
+
             Return True
 
         End If
@@ -460,6 +501,8 @@ Public Class Form1
         If Board(2, 0) = player AndAlso Board(1, 1) = player AndAlso Board(0, 2) = player Then
 
             MarkWinningTopRightBottomLeft()
+
+            WinningSet = Winning.TopRightBottomLeft
 
             Return True
 
@@ -605,12 +648,60 @@ Public Class Form1
             OPenWidth = CellWidth \ 16
             XPenWidth = CellWidth \ 16
             WinPenWidth = CellWidth \ 12
+            ResultFontSize = CellWidth \ 5
+            If ResultFontSize < 12 Then
+                ResultFontSize = 12
+            End If
+
         Else
 
             LinePenWidth = CellHeight \ 32
             OPenWidth = CellHeight \ 16
             XPenWidth = CellHeight \ 16
             WinPenWidth = CellHeight \ 12
+            ResultFontSize = CellHeight \ 5
+            If ResultFontSize < 12 Then
+                ResultFontSize = 12
+            End If
+        End If
+
+        If GameState = GameStateEnum.EndScreen Then
+
+            Select Case WinningSet
+
+                Case Winning.TopRow
+
+                    MarkWinningTopRow()
+
+                Case Winning.MidRow
+
+                    MarkWinningMidRow()
+
+                Case Winning.BottomRow
+
+                    MarkWinningBottomRow()
+
+                Case Winning.LeftColumn
+
+                    MarkWinningLeftColumn()
+
+                Case Winning.MidColumn
+
+                    MarkWinningMidColumn()
+
+                Case Winning.RightColumn
+
+                    MarkWinningRightColumn()
+
+                Case Winning.TopLeftBottomRight
+
+                    MarkWinningTopLeftBottomRight()
+
+                Case Winning.TopRightBottomLeft
+
+                    MarkWinningTopRightBottomLeft()
+
+            End Select
 
         End If
 
