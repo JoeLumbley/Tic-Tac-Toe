@@ -290,8 +290,6 @@ Public Class Form1
 
         DrawXsAndOs()
 
-        'DrawWinMarker()
-
     End Sub
     Private Sub InitializeStringAlinement()
 
@@ -396,23 +394,143 @@ Public Class Form1
 
     Private Sub ComputerMove()
 
-        Dim Rnd As New Random()
+        'Grab center cell if available.
+        If Board(1, 1) = Cell.Empty Then
 
-        Dim X, Y As Integer
+            Board(1, 1) = Cell.O
 
-        Do
-            Randomize()
+            'Block right column as needed.
+        ElseIf Board(2, 2) = Cell.X AndAlso Board(2, 1) = Cell.X AndAlso Board(2, 0) = Cell.Empty Then
 
-            'Get random number from 0 to 2.
-            X = Rnd.Next(3)
+            Board(2, 0) = Cell.O
 
-            Randomize()
+            'Block right column as needed.
+        ElseIf Board(2, 0) = Cell.X AndAlso Board(2, 1) = Cell.X AndAlso Board(2, 2) = Cell.Empty Then
 
-            Y = Rnd.Next(3)
+            Board(2, 2) = Cell.O
 
-        Loop While Board(X, Y) <> Cell.Empty
+            'Block right column as needed.
+        ElseIf Board(2, 0) = Cell.X AndAlso Board(2, 2) = Cell.X AndAlso Board(2, 1) = Cell.Empty Then
 
-        Board(X, Y) = Cell.O
+            Board(2, 1) = Cell.O
+
+            'Block bottom row as needed.
+        ElseIf Board(1, 2) = Cell.X AndAlso Board(2, 2) = Cell.X AndAlso Board(0, 2) = Cell.Empty Then
+
+            Board(0, 2) = Cell.O
+
+            'Block bottom row as needed.
+        ElseIf Board(0, 2) = Cell.X AndAlso Board(1, 2) = Cell.X AndAlso Board(2, 2) = Cell.Empty Then
+
+            Board(2, 2) = Cell.O
+
+            'Block bottom row as needed.
+        ElseIf Board(0, 2) = Cell.X AndAlso Board(2, 2) = Cell.X AndAlso Board(1, 2) = Cell.Empty Then
+
+            Board(1, 2) = Cell.O
+
+            'Block Left column as needed.
+        ElseIf Board(0, 0) = Cell.X AndAlso Board(0, 1) = Cell.X AndAlso Board(0, 2) = Cell.Empty Then
+
+            Board(0, 2) = Cell.O
+
+            'Block Left column as needed.
+        ElseIf Board(0, 0) = Cell.X AndAlso Board(0, 2) = Cell.X AndAlso Board(0, 1) = Cell.Empty Then
+
+            Board(0, 1) = Cell.O
+
+
+            'Block Left column as needed.
+        ElseIf Board(0, 1) = Cell.X AndAlso Board(0, 2) = Cell.X AndAlso Board(0, 0) = Cell.Empty Then
+
+            Board(0, 0) = Cell.O
+
+            'Block Mid row as needed.
+        ElseIf Board(1, 1) = Cell.X AndAlso Board(2, 1) = Cell.X AndAlso Board(0, 1) = Cell.Empty Then
+
+            Board(0, 1) = Cell.O
+
+            'Block Mid row as needed.
+        ElseIf Board(0, 1) = Cell.X AndAlso Board(2, 1) = Cell.X AndAlso Board(1, 1) = Cell.Empty Then
+
+            Board(1, 1) = Cell.O
+
+            'Block Mid row as needed.
+        ElseIf Board(0, 1) = Cell.X AndAlso Board(1, 1) = Cell.X AndAlso Board(2, 1) = Cell.Empty Then
+
+            Board(2, 1) = Cell.O
+
+            'Block Mid column as needed.
+        ElseIf Board(1, 0) = Cell.X AndAlso Board(1, 1) = Cell.X AndAlso Board(1, 2) = Cell.Empty Then
+
+            Board(1, 2) = Cell.O
+
+            'Block Mid column as needed.
+        ElseIf Board(1, 1) = Cell.X AndAlso Board(1, 2) = Cell.X AndAlso Board(1, 0) = Cell.Empty Then
+
+            Board(1, 0) = Cell.O
+
+            'Block Mid column as needed.
+        ElseIf Board(1, 0) = Cell.X AndAlso Board(1, 2) = Cell.X AndAlso Board(1, 1) = Cell.Empty Then
+
+            Board(1, 1) = Cell.O
+
+            'Block diagonal as needed.
+        ElseIf Board(1, 1) = Cell.X AndAlso Board(2, 2) = Cell.X AndAlso Board(0, 0) = Cell.Empty Then
+
+            Board(0, 0) = Cell.O
+
+            'Block diagonal as needed.
+        ElseIf Board(2, 0) = Cell.X AndAlso Board(1, 1) = Cell.X AndAlso Board(0, 2) = Cell.Empty Then
+
+            Board(0, 2) = Cell.O
+
+            'Block diagonal as needed.
+        ElseIf Board(1, 1) = Cell.X AndAlso Board(0, 0) = Cell.X AndAlso Board(2, 2) = Cell.Empty Then
+
+            Board(2, 2) = Cell.O
+
+            'Block diagonal as needed.
+        ElseIf Board(1, 1) = Cell.X AndAlso Board(2, 2) = Cell.X AndAlso Board(0, 0) = Cell.Empty Then
+
+            Board(0, 0) = Cell.O
+
+            'Block top row as needed.
+        ElseIf Board(1, 0) = Cell.X AndAlso Board(2, 0) = Cell.X AndAlso Board(0, 0) = Cell.Empty Then
+
+            Board(0, 0) = Cell.O
+
+            'Block top row as needed.
+        ElseIf Board(0, 0) = Cell.X AndAlso Board(1, 0) = Cell.X AndAlso Board(2, 0) = Cell.Empty Then
+
+            Board(2, 0) = Cell.O
+
+            'Block top row as needed.
+        ElseIf Board(0, 0) = Cell.X AndAlso Board(2, 0) = Cell.X AndAlso Board(1, 0) = Cell.Empty Then
+
+            Board(1, 0) = Cell.O
+
+        Else
+
+            Dim Rnd As New Random()
+
+            Dim X, Y As Integer
+
+            Do
+                Randomize()
+
+                'Get random number from 0 to 2.
+                X = Rnd.Next(3)
+
+                Randomize()
+
+                Y = Rnd.Next(3)
+
+            Loop While Board(X, Y) <> Cell.Empty
+
+            Board(X, Y) = Cell.O
+
+        End If
 
     End Sub
 
@@ -464,20 +582,17 @@ Public Class Form1
 
                         WinningSet = Winning.LeftColumn
 
-
                     Case 1
 
                         MarkWinningMidColumn()
 
                         WinningSet = Winning.MidColumn
 
-
                     Case 2
 
                         MarkWinningRightColumn()
 
                         WinningSet = Winning.RightColumn
-
 
                 End Select
 
@@ -537,9 +652,13 @@ Public Class Form1
         WinMarkerVisable = False
 
         For X = 0 To 2
+
             For Y = 0 To 2
+
                 Board(X, Y) = Cell.Empty
+
             Next
+
         Next
 
         CurrentPlayer = Cell.X
@@ -548,54 +667,57 @@ Public Class Form1
 
     Private Sub DrawXsAndOs()
 
-        For x = 0 To 2
-            For y = 0 To 2
+        For X = 0 To 2
+
+            For Y = 0 To 2
 
                 'Does the cell contain an x?
-                If Board(x, y) = Cell.X Then
+                If Board(X, Y) = Cell.X Then
                     'Yes, the cell contains an x.
 
-                    DrawX(x, y)
+                    DrawX(X, Y)
 
                     'Does the cell contain an o?
-                ElseIf Board(x, y) = Cell.O Then
+                ElseIf Board(X, Y) = Cell.O Then
                     'Yes, the cell contains an o.
 
-                    DrawO(x, y)
+                    DrawO(X, Y)
 
                 End If
+
             Next
+
         Next
 
     End Sub
 
-    Private Sub DrawX(x As Integer, y As Integer)
+    Private Sub DrawX(X As Integer, Y As Integer)
 
         Dim XPen As New Pen(Color.Blue, XPenWidth)
 
         Buffer.Graphics.DrawLine(XPen,
-                                 x * CellWidth + CellPaddingWidth,
-                                 y * CellHeight + CellPaddingHeight,
-                                 (x + 1) * CellWidth - CellPaddingWidth,
-                                 (y + 1) * CellHeight - CellPaddingHeight)
+                                 X * CellWidth + CellPaddingWidth,
+                                 Y * CellHeight + CellPaddingHeight,
+                                 (X + 1) * CellWidth - CellPaddingWidth,
+                                 (Y + 1) * CellHeight - CellPaddingHeight)
 
         Buffer.Graphics.DrawLine(XPen,
-                                 x * CellWidth + CellPaddingWidth,
-                                 (y + 1) * CellHeight - CellPaddingHeight,
-                                 (x + 1) * CellWidth - CellPaddingWidth,
-                                 y * CellHeight + CellPaddingHeight)
+                                 X * CellWidth + CellPaddingWidth,
+                                 (Y + 1) * CellHeight - CellPaddingHeight,
+                                 (X + 1) * CellWidth - CellPaddingWidth,
+                                 Y * CellHeight + CellPaddingHeight)
 
         XPen.Dispose()
 
     End Sub
 
-    Private Sub DrawO(x As Integer, y As Integer)
+    Private Sub DrawO(X As Integer, Y As Integer)
 
         Dim OPen As New Pen(Color.Red, OPenWidth)
 
         Buffer.Graphics.DrawEllipse(OPen,
-                                    x * CellWidth + CellPaddingWidth,
-                                    y * CellHeight + CellPaddingHeight,
+                                    X * CellWidth + CellPaddingWidth,
+                                    Y * CellHeight + CellPaddingHeight,
                                     CellWidth - 2 * CellPaddingWidth,
                                     CellHeight - 2 * CellPaddingHeight)
 
@@ -627,8 +749,6 @@ Public Class Form1
 
             Buffer.Graphics.DrawLine(WinPen, WinMarkerStart, WinMarkerEnd)
 
-            'Buffer.Graphics.DrawString(Winner.ToString, FPSFont, Brushes.White, ClientSize.Width \ 2, ClientSize.Height \ 2)
-
             WinPen.Dispose()
 
         End If
@@ -648,7 +768,7 @@ Public Class Form1
             OPenWidth = CellWidth \ 16
             XPenWidth = CellWidth \ 16
             WinPenWidth = CellWidth \ 12
-            ResultFontSize = CellWidth \ 5
+            ResultFontSize = CellWidth \ 10
             If ResultFontSize < 12 Then
                 ResultFontSize = 12
             End If
@@ -659,7 +779,7 @@ Public Class Form1
             OPenWidth = CellHeight \ 16
             XPenWidth = CellHeight \ 16
             WinPenWidth = CellHeight \ 12
-            ResultFontSize = CellHeight \ 5
+            ResultFontSize = CellHeight \ 10
             If ResultFontSize < 12 Then
                 ResultFontSize = 12
             End If
