@@ -103,7 +103,6 @@ Public Class Form1
 
     Private WinningSet As Winning = Winning.TopRow
 
-
     Private ResultFontSize As Integer = 25
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -111,7 +110,6 @@ Public Class Form1
         InitializeBoard()
 
         InitializeStringAlinement()
-
 
         Text = "Tic Tac Toe - Code with Joe"
 
@@ -136,6 +134,7 @@ Public Class Form1
                 Board(X, Y) = Cell.Empty
 
             Next
+
         Next
 
     End Sub
@@ -150,7 +149,6 @@ Public Class Form1
     End Sub
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
-        'Every tick of timer do the following...
 
         UpdateGame()
 
@@ -438,7 +436,6 @@ Public Class Form1
         ElseIf Board(0, 0) = Cell.X AndAlso Board(0, 2) = Cell.X AndAlso Board(0, 1) = Cell.Empty Then
 
             Board(0, 1) = Cell.O
-
 
             'Block Left column as needed.
         ElseIf Board(0, 1) = Cell.X AndAlso Board(0, 2) = Cell.X AndAlso Board(0, 0) = Cell.Empty Then
