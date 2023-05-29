@@ -398,7 +398,7 @@ Public Class Form1
 
     Private Sub ComputerMove()
 
-        'Grab center cell if available.
+        'Grab center cell if empty.
         If Board(1, 1) = Cell.Empty Then
 
             Board(1, 1) = Cell.O
@@ -519,6 +519,7 @@ Public Class Form1
             Board(1, 0) = Cell.O
 
         Else
+            'Generate random move.
 
             Dim Rnd As New Random()
 
