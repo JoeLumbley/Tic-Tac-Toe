@@ -8,7 +8,7 @@ https://www.youtube.com/@codewithjoe6074
 
 ![001](https://github.com/JoeLumbley/Tic-Tac-Toe/assets/77564255/2d3e72ac-cee3-4715-857a-6fe81cdc20f6)
 
-We define the board as a two-dimensional array that holds the state of each cell.
+We define the Board as a two-dimensional array that holds the state of each cell.
 ```
 Private ReadOnly Board(2, 2) As Cell
 ```
