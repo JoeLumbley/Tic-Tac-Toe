@@ -492,6 +492,11 @@ Public Class Form1
 
             Board(0, 0) = Cell.O
 
+            'Block diagonal as needed.
+        ElseIf Board(1, 1) = Cell.X AndAlso Board(0, 2) = Cell.X AndAlso Board(2, 0) = Cell.Empty Then
+
+            Board(2, 0) = Cell.O
+
             'Block top row as needed.
         ElseIf Board(1, 0) = Cell.X AndAlso Board(2, 0) = Cell.X AndAlso Board(0, 0) = Cell.Empty Then
 
