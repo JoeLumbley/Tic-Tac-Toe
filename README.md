@@ -48,6 +48,10 @@ End Sub
 
 This will set every cell on the Board to Cell.Empty.
 
+Now we're ready to play.
+
+# Making Moves
+
 
 
 
