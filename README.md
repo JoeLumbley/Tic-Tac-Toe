@@ -11,7 +11,7 @@ https://www.youtube.com/@codewithjoe6074
 
 # Set Up Board
 
-The board is a 3x3 grid of cells where players can place X's or O's to try to get three in a row. The board is represented as a two-dimensional array of cells, where each cell can be empty or occupied by a player's mark.
+The Board is a 3x3 grid of cells where players can place X's or O's to try to get three in a row. The Board is represented as a two-dimensional array of cells, where each cell can be empty or occupied by a player's mark.
 
 We define the Board as a two-dimensional array that holds the state of each cell.
 
