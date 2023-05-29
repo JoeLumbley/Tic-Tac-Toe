@@ -200,6 +200,7 @@ Public Class Form1
 
             Else
 
+                'We switch to the human player's turn.
                 CurrentPlayer = Cell.X
 
             End If
@@ -359,23 +360,27 @@ Public Class Form1
 
                         My.Computer.Audio.Play(My.Resources.tone700freq, AudioPlayMode.Background)
 
+                        'Human move.
                         Board(X, Y) = Cell.X
 
-                        CurrentPlayer = Cell.O
+                        If CheckForWin(Cell.X) Then
 
-                    End If
+                            Winner = Win.Human
 
-                    If CheckForWin(Cell.X) Then
+                            GameState = GameStateEnum.EndScreen
 
-                        Winner = Win.Human
+                        ElseIf CheckForDraw() Then
 
-                        GameState = GameStateEnum.EndScreen
+                            Winner = Win.Draw
 
-                    ElseIf CheckForDraw() Then
+                            GameState = GameStateEnum.EndScreen
 
-                        Winner = Win.Draw
+                        Else
 
-                        GameState = GameStateEnum.EndScreen
+                            'We switch to the computer player's turn.
+                            CurrentPlayer = Cell.O
+
+                        End If
 
                     End If
 
