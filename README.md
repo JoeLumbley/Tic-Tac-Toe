@@ -60,8 +60,123 @@ Now we're ready to play.
 
 For the human player we handle mouse clicks on the form to update the state of the Board.
 
+```
+
+Private Sub Form1_MouseClick(sender As Object, e As MouseEventArgs) Handles MyBase.MouseClick
+
+        UpdateMouse(e)
+
+End Sub
+
+```
+
+We convert the mouse coordinates to cell coordinates.
 
 
+```
+
+Private Function MouseToBoardX(e As MouseEventArgs) As Integer
+
+        'Check for error condition.
+        If e.X < ClientSize.Width Then
+            'No Error.
+
+            Return e.X * 3 \ ClientSize.Width 'Returns the row number.
+
+        Else
+            'Error Fix: Don't Change.
+
+            'Fixes: IndexOutOfRangeException
+            'Happens when mouse X is equal or greater than then client width
+            'e.X * 3 \ ClientSize.Width returns 3 which is out of range.
+
+            Return 2 '2 is the upper bound of the X axis.
+
+        End If
+
+End Function
+
+Private Function MouseToBoardY(e As MouseEventArgs) As Integer
+
+        'Check for error condition.
+        If e.Y < ClientSize.Height Then
+            'No Error.
+
+            Return e.Y * 3 \ ClientSize.Height 'Returns the column number.
+
+        Else
+            'Error Fix: Don't Change.
+            Return 2 '2 is the upper bound of the Y axis.
+
+        End If
+
+End Function
+
+```
+
+
+If the clicked cell is empty we place the human player's mark.
+
+
+```
+
+Private Sub UpdateMouse(e As MouseEventArgs)
+
+        Select Case GameState
+
+            Case GameStateEnum.Playing
+
+                Dim X As Integer = MouseToBoardX(e)
+
+                Dim Y As Integer = MouseToBoardY(e)
+
+                If Board(X, Y) = Cell.Empty Then
+
+                    If CurrentPlayer = Cell.X Then
+
+                        My.Computer.Audio.Play(My.Resources.tone700freq, AudioPlayMode.Background)
+
+                        'Human move.
+                        Board(X, Y) = Cell.X
+
+                        If CheckForWin(Cell.X) Then
+
+                            Winner = Win.Human
+
+                            GameState = GameStateEnum.EndScreen
+
+                        ElseIf CheckForDraw() Then
+
+                            Winner = Win.Draw
+
+                            GameState = GameStateEnum.EndScreen
+
+                        Else
+
+                            'We switch to the computer player's turn.
+                            CurrentPlayer = Cell.O
+
+                        End If
+
+                    End If
+
+                End If
+
+            Case GameStateEnum.EndScreen
+
+                ResetGame()
+
+                GameState = GameStateEnum.Playing
+
+        End Select
+
+    End Sub
+    
+```
+
+We check for human win or draw if so we switch to the endsceen.
+
+If not we switch to the computer player's turn.
 
 
 
