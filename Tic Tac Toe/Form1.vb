@@ -345,7 +345,6 @@ Public Class Form1
 
     Private Sub UpdateMouse(e As MouseEventArgs)
 
-
         Select Case GameState
 
             Case GameStateEnum.Playing
@@ -861,13 +860,19 @@ Public Class Form1
 
     Private Function MouseToBoardY(e As MouseEventArgs) As Integer
 
+        'Check for error condition.
         If e.Y < ClientSize.Height Then
+            'No Error.
 
             Return e.Y * 3 \ ClientSize.Height 'Returns the column number.
 
         Else
+            'Error Fix: Don't Change.
 
-            Return 2 'The upper bounds of the Y axis.
+            'Fixes: IndexOutOfRangeException when mouse Y is equal or greater than then client height
+            'e.X * 3 \ ClientSize.Height Returns 3 which is out of range.
+
+            Return 2 '2 is the upper bound of the Y axis.
 
         End If
 
@@ -875,13 +880,19 @@ Public Class Form1
 
     Private Function MouseToBoardX(e As MouseEventArgs) As Integer
 
+        'Check for error condition.
         If e.X < ClientSize.Width Then
+            'No Error.
 
             Return e.X * 3 \ ClientSize.Width 'Returns the row number.
 
         Else
+            'Error Fix: Don't Change.
 
-            Return 2 'The upper bounds of the X axis.
+            'Fixes: IndexOutOfRangeException when mouse X is equal or greater than then client width
+            'e.X * 3 \ ClientSize.Width returns 3 which is out of range.
+
+            Return 2 '2 is the upper bound of the X axis.
 
         End If
 
