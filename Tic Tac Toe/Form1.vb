@@ -288,6 +288,8 @@ Public Class Form1
 
         DrawXsAndOs()
 
+        DrawCoordinates()
+
     End Sub
     Private Sub InitializeStringAlinement()
 
@@ -690,6 +692,34 @@ Public Class Form1
             Next
 
         Next
+
+    End Sub
+
+    Private Sub DrawCoordinates()
+
+        For X = 0 To 2
+
+            For Y = 0 To 2
+
+                DrawCoordinate(X, Y)
+
+            Next
+
+        Next
+
+    End Sub
+
+    Private Sub DrawCoordinate(X As Integer, Y As Integer)
+
+
+        Dim CoordinatesFont As New Font(FontFamily.GenericSansSerif, ResultFontSize)
+
+        Buffer.Graphics.DrawString("(" & X & "," & Y & ")", CoordinatesFont, Brushes.White,
+                                   X * CellWidth + CellWidth \ 2,
+                                   Y * CellHeight + CellHeight \ 2,
+                                   AlineCenterMiddle)
+
+        CoordinatesFont.Dispose()
 
     End Sub
 
