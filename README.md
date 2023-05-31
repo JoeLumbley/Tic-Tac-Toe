@@ -174,9 +174,63 @@ Private Sub UpdateMouse(e As MouseEventArgs)
     
 ```
 
-We check for human win or draw if so we switch to the endsceen.
+We check if the human player has won or the game is a draw.
 
-If not we switch to the computer player's turn.
+If the human player didn't win and the game isn't a draw we switch to the computer player's turn.
+
+
+
+
+We draw the buffer to the form in the Paint event handler.
+
+```
+
+Protected Overrides Sub OnPaint(ByVal e As PaintEventArgs)
+
+        DrawGame()
+
+        'Draw frames per second display.
+        Buffer.Graphics.DrawString(FPS & " FPS", FPSFont, Brushes.Purple, 0, ClientRectangle.Bottom - 75)
+
+        'Show buffer on form.
+        Buffer.Render(e.Graphics)
+
+        'Release memory used by buffer.
+        Buffer.Dispose()
+        Buffer = Nothing
+
+        'Create new buffer.
+        Buffer = Context.Allocate(CreateGraphics(), ClientRectangle)
+        'Buffer.Graphics.TextRenderingHint = Drawing.Text.TextRenderingHint.AntiAlias
+
+        'Use these settings when drawing to the backbuffer.
+        With Buffer.Graphics
+            'Bug Fix
+            .CompositingMode = Drawing2D.CompositingMode.SourceOver 'Don't Change.
+            'To fix draw string error with anti aliasing: "Parameters not valid."
+            'I set the compositing mode to source over.
+            .TextRenderingHint = Drawing.Text.TextRenderingHint.AntiAliasGridFit
+            .SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
+            .CompositingQuality = Drawing2D.CompositingQuality.HighQuality
+            .InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
+            .PixelOffsetMode = Drawing2D.PixelOffsetMode.HighQuality
+
+            .TextContrast = 6 'a value between 0 and 12
+        End With
+
+        UpdateFrameCounter()
+
+End Sub
+
+```
+
+
+
+
+
+
+
+
 
 
 
