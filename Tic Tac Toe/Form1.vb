@@ -31,6 +31,8 @@
 'https://monica.im/
 
 Imports System.Drawing.Text
+Imports System.Drawing.Drawing2D
+
 
 Public Class Form1
 
@@ -244,15 +246,15 @@ Public Class Form1
 
         'Use these settings when drawing to the backbuffer.
         With Buffer.Graphics
-            'Bug Fix
-            .CompositingMode = Drawing2D.CompositingMode.SourceOver 'Don't Change.
+
+            'Bug Fix. Don't Change.
             'To fix draw string error with anti aliasing: "Parameters not valid."
-            'I set the compositing mode to source over.
-            .TextRenderingHint = Drawing.Text.TextRenderingHint.AntiAliasGridFit
-            .SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
-            .CompositingQuality = Drawing2D.CompositingQuality.HighQuality
-            .InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
-            .PixelOffsetMode = Drawing2D.PixelOffsetMode.HighQuality
+            .CompositingMode = CompositingMode.SourceOver 'I set the compositing mode to source over.
+            .TextRenderingHint = TextRenderingHint.AntiAliasGridFit
+            .SmoothingMode = SmoothingMode.AntiAlias
+            .CompositingQuality = CompositingQuality.HighQuality
+            .InterpolationMode = InterpolationMode.HighQualityBicubic
+            .PixelOffsetMode = PixelOffsetMode.HighQuality
 
             .TextContrast = 6 'a value between 0 and 12
         End With
