@@ -30,6 +30,8 @@
 'Monica is our an AI assistant.
 'https://monica.im/
 
+Imports System.Drawing.Text
+
 Public Class Form1
 
     Private Context As New BufferedGraphicsContext
@@ -227,7 +229,7 @@ Public Class Form1
         DrawGame()
 
         'Draw frames per second display.
-        'Buffer.Graphics.DrawString(FPS & " FPS", FPSFont, Brushes.MediumOrchid, 0, ClientRectangle.Bottom - 75)
+        Buffer.Graphics.DrawString(FPS & " FPS", FPSFont, Brushes.Purple, 0, ClientRectangle.Bottom - 75)
 
         'Show buffer on form.
         Buffer.Render(e.Graphics)
@@ -246,11 +248,13 @@ Public Class Form1
             .CompositingMode = Drawing2D.CompositingMode.SourceOver 'Don't Change.
             'To fix draw string error with anti aliasing: "Parameters not valid."
             'I set the compositing mode to source over.
-            .TextRenderingHint = Drawing.Text.TextRenderingHint.AntiAlias
+            .TextRenderingHint = Drawing.Text.TextRenderingHint.AntiAliasGridFit
             .SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
             .CompositingQuality = Drawing2D.CompositingQuality.HighQuality
             .InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
             .PixelOffsetMode = Drawing2D.PixelOffsetMode.HighQuality
+
+            .TextContrast = 6 'a value between 0 and 12
         End With
 
         UpdateFrameCounter()
@@ -1030,5 +1034,35 @@ Public Class Form1
 
 End Class
 
+'
+'Learn more
+'
+'Arrays
+'https://learn.microsoft.com/en-us/dotnet/visual-basic/programming-guide/language-features/arrays/?source=recommendations
+'
+'Two-Dimensional Array
+'https://learn.microsoft.com/en-us/dotnet/visual-basic/programming-guide/language-features/arrays/array-dimensions#two-dimensions
+'
+'Array Dimensions
+'https://learn.microsoft.com/en-us/dotnet/visual-basic/programming-guide/language-features/arrays/array-dimensions
+'
+'BufferedGraphics Class
+'https://learn.microsoft.com/en-us/dotnet/api/system.drawing.bufferedgraphics?view=dotnet-plat-ext-7.0
+'
+'BufferedGraphics.Render Method
+'https://learn.microsoft.com/en-us/dotnet/api/system.drawing.bufferedgraphics.render?view=dotnet-plat-ext-7.0
+'
+'Bertie the Brain a video game version of tic-tac-toe, built by Dr. Josef Kates in 1950
+'https://en.wikipedia.org/wiki/Bertie_the_Brain
+'
+'OXO a video game version of tic-tac-toe, built by A S Douglas in 1952
+'https://en.wikipedia.org/wiki/OXO_(video_game)
+'
+'The First Video Game
+'https://youtu.be/uHQ4WCU1WQc
+'
+'Graphics.TextContrast Property
+'https://learn.microsoft.com/en-us/dotnet/api/system.drawing.graphics.textcontrast?view=windowsdesktop-7.0
+'
 
 
