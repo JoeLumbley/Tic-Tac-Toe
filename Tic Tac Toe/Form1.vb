@@ -242,7 +242,6 @@ Public Class Form1
 
         'Create new buffer.
         Buffer = Context.Allocate(CreateGraphics(), ClientRectangle)
-        'Buffer.Graphics.TextRenderingHint = Drawing.Text.TextRenderingHint.AntiAlias
 
         'Use these settings when drawing to the backbuffer.
         With Buffer.Graphics
@@ -250,12 +249,12 @@ Public Class Form1
             'Bug Fix. Don't Change.
             'To fix draw string error with anti aliasing: "Parameters not valid."
             .CompositingMode = CompositingMode.SourceOver 'I set the compositing mode to source over.
+
             .TextRenderingHint = TextRenderingHint.AntiAliasGridFit
             .SmoothingMode = SmoothingMode.AntiAlias
             .CompositingQuality = CompositingQuality.HighQuality
             .InterpolationMode = InterpolationMode.HighQualityBicubic
             .PixelOffsetMode = PixelOffsetMode.HighQuality
-
             .TextContrast = 6 'a value between 0 and 12
         End With
 
@@ -313,8 +312,6 @@ Public Class Form1
         DrawXsAndOs()
 
         DrawWinMarker()
-
-
 
         Dim ResultFont As New Font(FontFamily.GenericSansSerif, ResultFontSize)
 
@@ -569,13 +566,11 @@ Public Class Form1
 
                         WinningSet = Winning.MidRow
 
-
                     Case 2 'Bottom row
 
                         MarkWinningBottomRow()
 
                         WinningSet = Winning.BottomRow
-
 
                 End Select
 
@@ -881,7 +876,9 @@ Public Class Form1
         Else
             'Error Fix: Don't Change.
 
-            'Fixes: IndexOutOfRangeException when mouse Y is equal or greater than then client height
+            'Fixes: IndexOutOfRangeException
+            'Happens when mouse Y is equal or greater than client height.
+
             'e.X * 3 \ ClientSize.Height Returns 3 which is out of range.
 
             Return 2 '2 is the upper bound of the Y axis.
@@ -901,7 +898,9 @@ Public Class Form1
         Else
             'Error Fix: Don't Change.
 
-            'Fixes: IndexOutOfRangeException when mouse X is equal or greater than then client width
+            'Fixes: IndexOutOfRangeException
+            'Happens when mouse X is equal or greater than client width.
+
             'e.X * 3 \ ClientSize.Width returns 3 which is out of range.
 
             Return 2 '2 is the upper bound of the X axis.
