@@ -32,7 +32,9 @@
 
 Imports System.Drawing.Text
 Imports System.Drawing.Drawing2D
-
+Imports Microsoft.VisualBasic.Devices
+Imports System.Threading
+Imports System.ComponentModel
 
 Public Class Form1
 
@@ -109,6 +111,8 @@ Public Class Form1
 
     Private ResultFontSize As Integer = 25
 
+    Private Running As Boolean = True
+
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         InitializeBoard()
@@ -126,6 +130,8 @@ Public Class Form1
         InitBuffer()
 
         InitTimer1()
+
+
 
     End Sub
 
@@ -151,6 +157,41 @@ Public Class Form1
         Timer1.Start()
 
     End Sub
+
+    'Dim gameLoopTask As Task =
+    '    Task.Factory.StartNew(Sub()
+    '                              Try
+    '                                  Do While Running
+
+    '                                      UpdateGame()
+
+    '                                      ' Invalidate the form to trigger a redraw
+    '                                      'If Not Me.IsDisposed AndAlso Me.IsHandleCreated Then
+    '                                      If Me.IsHandleCreated Then
+
+    '                                          Me.Invoke(Sub() Me.Refresh())
+
+    '                                      End If
+
+
+    '                                      ' Wait for next frame
+    '                                      Thread.Sleep(TimeSpan.Zero)
+
+    '                                      'Thread.Sleep(TimeSpan.Zero), the thread relinquishes the
+    '                                      'remainder of its time slice to any thread of equal priority
+    '                                      'that is ready to run. If there are no other threads of equal
+    '                                      'priority that are ready to run, execution of the current thread is not suspended.
+
+
+    '                                  Loop
+
+    '                              Catch ex As Exception
+
+    '                                  End
+
+    '                              End Try
+
+    '                          End Sub)
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
 
@@ -231,7 +272,7 @@ Public Class Form1
         DrawGame()
 
         'Draw frames per second display.
-        Buffer.Graphics.DrawString(FPS & " FPS", FPSFont, Brushes.Purple, 0, ClientRectangle.Bottom - 75)
+        Buffer.Graphics.DrawString(FPS & " FPS", FPSFont, Brushes.Orchid, 0, ClientRectangle.Bottom - 75)
 
         'Show buffer on form.
         Buffer.Render(e.Graphics)
@@ -361,8 +402,6 @@ Public Class Form1
 
                     If CurrentPlayer = Cell.X Then
 
-                        My.Computer.Audio.Play(My.Resources.tone700freq, AudioPlayMode.Background)
-
                         'Human move.
                         Board(X, Y) = Cell.X
 
@@ -384,6 +423,8 @@ Public Class Form1
                             CurrentPlayer = Cell.O
 
                         End If
+
+                        My.Computer.Audio.Play(My.Resources.tone700freq, AudioPlayMode.Background)
 
                     End If
 
@@ -1033,6 +1074,11 @@ Public Class Form1
 
     End Sub
 
+    Private Sub Form1_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+
+        Running = False
+
+    End Sub
 End Class
 
 '
