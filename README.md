@@ -200,7 +200,7 @@ Protected Overrides Sub OnPaint(ByVal e As PaintEventArgs)
 
         'Create new buffer.
         Buffer = Context.Allocate(CreateGraphics(), ClientRectangle)
-        'Buffer.Graphics.TextRenderingHint = Drawing.Text.TextRenderingHint.AntiAlias
+
 
         'Use these settings when drawing to the backbuffer.
         With Buffer.Graphics
