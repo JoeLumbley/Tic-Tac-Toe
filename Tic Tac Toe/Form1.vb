@@ -165,9 +165,8 @@ Public Class Form1
 
     '                                      UpdateGame()
 
-    '                                      ' Invalidate the form to trigger a redraw
-    '                                      'If Not Me.IsDisposed AndAlso Me.IsHandleCreated Then
-    '                                      If Me.IsHandleCreated Then
+    '                                      'Refresh the form to trigger a redraw
+    '                                      If Not Me.IsDisposed AndAlso Me.IsHandleCreated Then
 
     '                                          Me.Invoke(Sub() Me.Refresh())
 
@@ -185,6 +184,7 @@ Public Class Form1
 
     '                                  Loop
 
+    '                                  End
 
 
     '                              Catch ex As Exception
@@ -192,6 +192,7 @@ Public Class Form1
     '                                  End
 
     '                              End Try
+
 
     '                          End Sub)
 
@@ -1076,18 +1077,7 @@ Public Class Form1
 
     End Sub
 
-    'Private Sub Form1_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
-
-    '    Running = False
-
-    'End Sub
-
     Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
-
-
-    End Sub
-
-    Private Sub Form1_Disposed(sender As Object, e As EventArgs) Handles Me.Disposed
 
         Running = False
 
