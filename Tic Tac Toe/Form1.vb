@@ -158,43 +158,43 @@ Public Class Form1
 
     End Sub
 
-    'Dim gameLoopTask As Task =
-    '    Task.Factory.StartNew(Sub()
-    '                              Try
-    '                                  Do While Running
+    Dim gameLoopTask As Task =
+        Task.Factory.StartNew(Sub()
+                                  Try
+                                      Do While Running
 
-    '                                      UpdateGame()
+                                          UpdateGame()
 
-    '                                      'Refresh the form to trigger a redraw
-    '                                      If Not Me.IsDisposed AndAlso Me.IsHandleCreated Then
+                                          'Refresh the form to trigger a redraw
+                                          If Not Me.IsDisposed AndAlso Me.IsHandleCreated Then
 
-    '                                          Me.Invoke(Sub() Me.Refresh())
+                                              Me.Invoke(Sub() Me.Refresh())
 
-    '                                      End If
-
-
-    '                                      ' Wait for next frame
-    '                                      Thread.Sleep(TimeSpan.Zero)
-
-    '                                      'Thread.Sleep(TimeSpan.Zero), the thread relinquishes the
-    '                                      'remainder of its time slice to any thread of equal priority
-    '                                      'that is ready to run. If there are no other threads of equal
-    '                                      'priority that are ready to run, execution of the current thread is not suspended.
+                                          End If
 
 
-    '                                  Loop
+                                          ' Wait for next frame
+                                          Thread.Sleep(TimeSpan.Zero)
 
-    '                                  End
-
-
-    '                              Catch ex As Exception
-
-    '                                  End
-
-    '                              End Try
+                                          'Thread.Sleep(TimeSpan.Zero), the thread relinquishes the
+                                          'remainder of its time slice to any thread of equal priority
+                                          'that is ready to run. If there are no other threads of equal
+                                          'priority that are ready to run, execution of the current thread is not suspended.
 
 
-    '                          End Sub)
+                                      Loop
+
+                                      End
+
+
+                                  Catch ex As Exception
+
+                                      End
+
+                                  End Try
+
+
+                              End Sub)
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
 
