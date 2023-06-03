@@ -15,17 +15,21 @@ The Board is a 3x3 grid of cells where players place their mark to try to get th
 We define the Board as a two-dimensional array that holds the state of each cell.
 
 ```
+
 Private ReadOnly Board(2, 2) As Cell
+
 ```
 
 We use the Cell enumeration to represent the possible states of each cell.
 
 ```
+
 Enum Cell
         Empty
         X
         O
 End Enum
+
 ```
 
 The possible states of each cell on the Board being: Empty, X, or O.
@@ -35,7 +39,9 @@ The possible states of each cell on the Board being: Empty, X, or O.
 
 We initialize the Board to all Empty cells using a loop:
 
+
 ```
+
 Private Sub InitializeBoard()
 
         For X = 0 To 2
@@ -49,7 +55,9 @@ Private Sub InitializeBoard()
         Next
 
 End Sub
+
 ```
+
 
 This will set every cell on the Board to Cell.Empty.
 
@@ -58,6 +66,7 @@ Now we're ready to play.
 # Making Moves
 
 For the human player we handle mouse clicks on the form to update the state of the Board.
+
 
 ```
 
@@ -68,6 +77,7 @@ Private Sub Form1_MouseClick(sender As Object, e As MouseEventArgs) Handles MyBa
 End Sub
 
 ```
+
 
 We convert the mouse coordinates to cell coordinates.
 
@@ -111,6 +121,7 @@ Private Function MouseToBoardY(e As MouseEventArgs) As Integer
 
 End Function
 
+
 ```
 
 
@@ -118,6 +129,7 @@ If the clicked cell is empty we place the human player's mark.
 
 
 ```
+
 
 Private Sub UpdateMouse(e As MouseEventArgs)
 
@@ -171,7 +183,9 @@ Private Sub UpdateMouse(e As MouseEventArgs)
 
     End Sub
     
+    
 ```
+
 
 We check if the human player has won or the game is a draw.
 
@@ -182,7 +196,9 @@ If the human player didn't win and the game isn't a draw we switch to the comput
 
 We draw the buffer to the form in the Paint event handler.
 
+
 ```
+
 
 Protected Overrides Sub OnPaint(ByVal e As PaintEventArgs)
 
@@ -200,7 +216,6 @@ Protected Overrides Sub OnPaint(ByVal e As PaintEventArgs)
 
         'Create new buffer.
         Buffer = Context.Allocate(CreateGraphics(), ClientRectangle)
-        'Buffer.Graphics.TextRenderingHint = Drawing.Text.TextRenderingHint.AntiAlias
 
         'Use these settings when drawing to the backbuffer.
         With Buffer.Graphics
@@ -220,6 +235,7 @@ Protected Overrides Sub OnPaint(ByVal e As PaintEventArgs)
         UpdateFrameCounter()
 
 End Sub
+
 
 ```
 
