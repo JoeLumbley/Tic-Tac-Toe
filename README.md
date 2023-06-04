@@ -79,11 +79,13 @@ End Sub
 ```
 
 
-We convert the mouse coordinates to cell coordinates.
+We handle clicks on a square by converting form coordinates to 
+board coordinates.
 
-If the clicked cell is empty we place the human player's mark.
+If the square is empty we mark the square with the player's mark.
 
-We check if the human player has won or the game is a draw.
+We then check for a win or draw using the CheckForWin and
+CheckForDraw methods.
 
 
 ```
@@ -284,9 +286,9 @@ End Sub
 ```
 
 
+We then loop through the game board array.
 
-We then loop through the game board array and draw the players marks it contains.
-
+We draw X's and O's on the cells based on their state in the board array.
 
 
 ```
