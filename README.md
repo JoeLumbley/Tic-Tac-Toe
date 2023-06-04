@@ -8,7 +8,7 @@ is compatible with Windows 10 and 11.
 ![001](https://github.com/JoeLumbley/Tic-Tac-Toe/assets/77564255/2d3e72ac-cee3-4715-857a-6fe81cdc20f6)
 
 
-# Set Up Board
+## Set Up Board
 
 The Board is a 3x3 grid of cells where players place their mark to try to get three in a row. We represent The Board as a two-dimensional array of cells, where each cell can be empty or occupied by a player's mark.
 
@@ -63,7 +63,7 @@ This will set every cell on the Board to Cell.Empty.
 
 Now we're ready to play.
 
-# Making Moves
+## Making Moves
 
 For the human player we handle mouse clicks on the form to update the state of the Board.
 
@@ -81,51 +81,9 @@ End Sub
 
 We convert the mouse coordinates to cell coordinates.
 
-
-```
-
-Private Function MouseToBoardX(e As MouseEventArgs) As Integer
-
-        'Check for error condition.
-        If e.X < ClientSize.Width Then
-            'No Error.
-
-            Return e.X * 3 \ ClientSize.Width 'Returns the row number.
-
-        Else
-            'Error Fix: Don't Change.
-
-            'Fixes: IndexOutOfRangeException
-            'Happens when mouse X is equal or greater than then client width
-            'e.X * 3 \ ClientSize.Width returns 3 which is out of range.
-
-            Return 2 '2 is the upper bound of the X axis.
-
-        End If
-
-End Function
-
-Private Function MouseToBoardY(e As MouseEventArgs) As Integer
-
-        'Check for error condition.
-        If e.Y < ClientSize.Height Then
-            'No Error.
-
-            Return e.Y * 3 \ ClientSize.Height 'Returns the column number.
-
-        Else
-            'Error Fix: Don't Change.
-            Return 2 '2 is the upper bound of the Y axis.
-
-        End If
-
-End Function
-
-
-```
-
-
 If the clicked cell is empty we place the human player's mark.
+
+We check if the human player has won or the game is a draw.
 
 
 ```
@@ -187,14 +145,282 @@ Private Sub UpdateMouse(e As MouseEventArgs)
 ```
 
 
-We check if the human player has won or the game is a draw.
-
 If the human player didn't win and the game isn't a draw we switch to the computer player's turn.
+
+
+```
+
+
+Private Sub UpdatePlaying()
+
+        If CurrentPlayer = Cell.O Then
+            'Computer player's turn
+
+            ComputerMove()
+
+            If CheckForWin(Cell.O) Then
+
+                Winner = Win.Computer
+
+                GameState = GameStateEnum.EndScreen
+
+            ElseIf CheckForDraw() Then
+
+                Winner = Win.Draw
+
+                GameState = GameStateEnum.EndScreen
+
+            Else
+
+                'We switch to the human player's turn.
+                CurrentPlayer = Cell.X
+
+            End If
+
+        End If
+
+End Sub
+
+
+```
+
+
+
+
+
+
+
+
+
+```
+
+
+Private Sub InitTimer1()
+
+        'Set tick rate to 60 ticks per second. 1 second = 1000 milliseconds.
+        Timer1.Interval = 15 '16.66666666666667 ms = 1000 ms / 60 ticks
+
+        Timer1.Start()
+
+End Sub
+
+
+Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
+
+        UpdateGame()
+
+        Refresh() 'Calls OnPaint Event
+
+End Sub
+
+
+```
+
+
+## Draw Board
+
+
+
+
+We draw the game board by first clearing the background to black. 
+
+
+
+```
+
+Private Sub DrawGame()
+
+        Buffer.Graphics.Clear(Color.Black)
+
+        Select Case GameState
+
+            Case GameStateEnum.StartScreen
+
+                'DrawStartScreen()
+
+            Case GameStateEnum.Instructions
+
+                'DrawInstructions()
+
+            Case GameStateEnum.Playing
+
+                DrawPlaying()
+
+            Case GameStateEnum.EndScreen
+
+                DrawEndScreen()
+
+        End Select
+
+End Sub
+
+
+Private Sub DrawPlaying()
+
+        DrawBoardLines()
+
+        DrawXsAndOs()
+
+        DrawCoordinates()
+
+End Sub
+    
+    
+```
+    
+    
+
+We draw the board lines using a white pen. 
+
+
+
+```
+
+
+Private Sub DrawBoardLines()
+
+        Dim LinePen As New Pen(Color.White, LinePenWidth)
+
+        'Draw vertical board lines
+        Buffer.Graphics.DrawLine(LinePen,
+                                 CellWidth,
+                                 0,
+                                 CellWidth,
+                                 ClientSize.Height)
+
+        Buffer.Graphics.DrawLine(LinePen,
+                                 ClientSize.Width * 2 \ 3,
+                                 0,
+                                 ClientSize.Width * 2 \ 3,
+                                 ClientSize.Height)
+
+        'Draw horizontal board lines
+        Buffer.Graphics.DrawLine(LinePen,
+                                 0,
+                                 CellHeight,
+                                 ClientSize.Width,
+                                 ClientSize.Height \ 3)
+
+        Buffer.Graphics.DrawLine(LinePen,
+                                 0,
+                                 ClientSize.Height * 2 \ 3,
+                                 ClientSize.Width,
+                                 ClientSize.Height * 2 \ 3)
+
+        LinePen.Dispose()
+
+End Sub
+
+
+```
+
+
+
+We then loop through the game board array and draw the players marks it contains.
+
+
+
+```
+
+
+Private Sub DrawXsAndOs()
+
+        For X = 0 To 2
+
+            For Y = 0 To 2
+
+                'Does the cell contain an x?
+                If Board(X, Y) = Cell.X Then
+                    'Yes, the cell contains an x.
+
+                    DrawX(X, Y)
+
+                    'Does the cell contain an o?
+                ElseIf Board(X, Y) = Cell.O Then
+                    'Yes, the cell contains an o.
+
+                    DrawO(X, Y)
+
+                End If
+
+            Next
+
+        Next
+
+End Sub
+    
+    
+```
+
+
+We draw the X's using a blue pen. 
+
+
+
+```
+
+
+Private Sub DrawX(X As Integer, Y As Integer)
+        'To draw the letter X, we start by drawing two diagonal lines that
+        'cross in the middle.
+
+        Dim XPen As New Pen(Color.Blue, XPenWidth)
+
+        'We begin by drawing a diagonal line
+        'from the top left corner to the bottom right corner.
+        Buffer.Graphics.DrawLine(XPen,
+        X * CellWidth + CellPaddingWidth,
+                                 Y * CellHeight + CellPaddingHeight,
+                                 (X + 1) * CellWidth - CellPaddingWidth,
+                                 (Y + 1) * CellHeight - CellPaddingHeight)
+
+        'Then we draw a second diagonal line this time
+        'from the top right corner to the bottom left corner.
+        Buffer.Graphics.DrawLine(XPen,
+                                 X * CellWidth + CellPaddingWidth,
+                                 (Y + 1) * CellHeight - CellPaddingHeight,
+                                 (X + 1) * CellWidth - CellPaddingWidth,
+                                 Y * CellHeight + CellPaddingHeight)
+
+        'The two lines intersect in the middle to form an X shape.
+
+        XPen.Dispose()
+
+End Sub
+
+
+```
+
+
+We draw the O's using a red pen.
+
+
+```
+
+
+Private Sub DrawO(X As Integer, Y As Integer)
+
+        Dim OPen As New Pen(Color.Red, OPenWidth)
+
+        Buffer.Graphics.DrawEllipse(OPen,
+                                    X * CellWidth + CellPaddingWidth,
+                                    Y * CellHeight + CellPaddingHeight,
+                                    CellWidth - 2 * CellPaddingWidth,
+                                    CellHeight - 2 * CellPaddingHeight)
+
+        OPen.Dispose()
+
+End Sub
+
+
+```
 
 
 
 
 We draw the buffer to the form in the Paint event handler.
+
+
 
 
 ```
@@ -204,8 +430,7 @@ Protected Overrides Sub OnPaint(ByVal e As PaintEventArgs)
 
         DrawGame()
 
-        'Draw frames per second display.
-        Buffer.Graphics.DrawString(FPS & " FPS", FPSFont, Brushes.Orchid, 0, ClientRectangle.Bottom - 75)
+        DrawFPS()
 
         'Show buffer on form.
         Buffer.Render(e.Graphics)
@@ -220,9 +445,10 @@ Protected Overrides Sub OnPaint(ByVal e As PaintEventArgs)
         'Use these settings when drawing to the backbuffer.
         With Buffer.Graphics
 
-            'Bug Fix. Don't Change.
+            'Bug Fix: Don't Change.
             'To fix draw string error with anti aliasing: "Parameters not valid."
-            .CompositingMode = CompositingMode.SourceOver 'I set the compositing mode to source over.
+            'I set the compositing mode to: SourceOver.
+            .CompositingMode = CompositingMode.SourceOver
 
             .TextRenderingHint = TextRenderingHint.AntiAliasGridFit
             .SmoothingMode = SmoothingMode.AntiAlias
@@ -234,7 +460,7 @@ Protected Overrides Sub OnPaint(ByVal e As PaintEventArgs)
 
         UpdateFrameCounter()
 
-    End Sub
+End Sub
 
 
 ```
