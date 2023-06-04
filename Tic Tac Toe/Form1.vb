@@ -270,8 +270,7 @@ Public Class Form1
 
         DrawGame()
 
-        'Draw frames per second display.
-        Buffer.Graphics.DrawString(FPS & " FPS", FPSFont, Brushes.Orchid, 0, ClientRectangle.Bottom - 75)
+        DrawFPS()
 
         'Show buffer on form.
         Buffer.Render(e.Graphics)
@@ -286,9 +285,10 @@ Public Class Form1
         'Use these settings when drawing to the backbuffer.
         With Buffer.Graphics
 
-            'Bug Fix. Don't Change.
+            'Bug Fix: Don't Change.
             'To fix draw string error with anti aliasing: "Parameters not valid."
-            .CompositingMode = CompositingMode.SourceOver 'I set the compositing mode to source over.
+            'I set the compositing mode to: SourceOver.
+            .CompositingMode = CompositingMode.SourceOver
 
             .TextRenderingHint = TextRenderingHint.AntiAliasGridFit
             .SmoothingMode = SmoothingMode.AntiAlias
@@ -299,6 +299,17 @@ Public Class Form1
         End With
 
         UpdateFrameCounter()
+
+    End Sub
+
+    Private Sub DrawFPS()
+        'Draw frames per second.
+
+        Buffer.Graphics.DrawString(FPS & " FPS",
+                                   FPSFont,
+                                   Brushes.Orchid,
+                                   0,
+                                   ClientRectangle.Bottom - 75)
 
     End Sub
 
