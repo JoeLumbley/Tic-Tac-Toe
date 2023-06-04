@@ -781,20 +781,28 @@ Public Class Form1
     End Sub
 
     Private Sub DrawX(X As Integer, Y As Integer)
+        'To draw the letter X, we start by drawing two diagonal lines that
+        'cross in the middle.
 
         Dim XPen As New Pen(Color.Blue, XPenWidth)
 
+        'We begin by drawing a diagonal line
+        'from the top left corner to the bottom right corner.
         Buffer.Graphics.DrawLine(XPen,
-                                 X * CellWidth + CellPaddingWidth,
+        X * CellWidth + CellPaddingWidth,
                                  Y * CellHeight + CellPaddingHeight,
                                  (X + 1) * CellWidth - CellPaddingWidth,
                                  (Y + 1) * CellHeight - CellPaddingHeight)
 
+        'Then we draw a second diagonal line this time
+        'from the top right corner to the bottom left corner.
         Buffer.Graphics.DrawLine(XPen,
                                  X * CellWidth + CellPaddingWidth,
                                  (Y + 1) * CellHeight - CellPaddingHeight,
                                  (X + 1) * CellWidth - CellPaddingWidth,
                                  Y * CellHeight + CellPaddingHeight)
+
+        'The two lines intersect in the middle to form an X shape.
 
         XPen.Dispose()
 
