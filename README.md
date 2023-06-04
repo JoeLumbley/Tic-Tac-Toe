@@ -103,8 +103,6 @@ Private Sub UpdateMouse(e As MouseEventArgs)
 
                     If CurrentPlayer = Cell.X Then
 
-                        My.Computer.Audio.Play(My.Resources.tone700freq, AudioPlayMode.Background)
-
                         'Human move.
                         Board(X, Y) = Cell.X
 
@@ -127,6 +125,9 @@ Private Sub UpdateMouse(e As MouseEventArgs)
 
                         End If
 
+                        My.Computer.Audio.Play(My.Resources.tone700freq,
+                                               AudioPlayMode.Background)
+
                     End If
 
                 End If
@@ -139,8 +140,8 @@ Private Sub UpdateMouse(e As MouseEventArgs)
 
         End Select
 
-    End Sub
-    
+End Sub
+
     
 ```
 
