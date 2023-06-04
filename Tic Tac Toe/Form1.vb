@@ -434,7 +434,8 @@ Public Class Form1
 
                         End If
 
-                        My.Computer.Audio.Play(My.Resources.tone700freq, AudioPlayMode.Background)
+                        My.Computer.Audio.Play(My.Resources.tone700freq,
+                                               AudioPlayMode.Background)
 
                     End If
 
@@ -1134,6 +1135,9 @@ End Class
 '
 'BufferedGraphics.Render Method
 'https://learn.microsoft.com/en-us/dotnet/api/system.drawing.bufferedgraphics.render?view=dotnet-plat-ext-7.0
+'
+'AndAlso Operator
+'https://learn.microsoft.com/en-us/dotnet/visual-basic/language-reference/operators/andalso-operator
 '
 'Bertie the Brain a video game version of tic-tac-toe, built by Dr. Josef Kates in 1950
 'https://en.wikipedia.org/wiki/Bertie_the_Brain
