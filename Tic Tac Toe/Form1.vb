@@ -33,6 +33,7 @@
 Imports System.Drawing.Text
 Imports System.Drawing.Drawing2D
 Imports System.Threading
+Imports Microsoft.VisualBasic.Devices
 
 Public Class Form1
 
@@ -111,6 +112,8 @@ Public Class Form1
 
     Private Running As Boolean = True
 
+    Private gameLoopCancellationToken As New CancellationTokenSource()
+
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         InitializeBoard()
@@ -128,8 +131,6 @@ Public Class Form1
         InitBuffer()
 
         InitTimer1()
-
-
 
     End Sub
 
@@ -155,11 +156,19 @@ Public Class Form1
         Timer1.Start()
 
     End Sub
+    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
+
+        UpdateGame()
+
+        Refresh() 'Calls OnPaint Event
+
+    End Sub
 
     'Dim gameLoopTask As Task =
     '    Task.Factory.StartNew(Sub()
     '                              Try
-    '                                  Do While Running
+
+    '                                  Do While Not gameLoopCancellationToken.IsCancellationRequested
 
     '                                      UpdateGame()
 
@@ -170,7 +179,6 @@ Public Class Form1
 
     '                                      End If
 
-
     '                                      ' Wait for next frame
     '                                      Thread.Sleep(TimeSpan.Zero)
 
@@ -179,11 +187,9 @@ Public Class Form1
     '                                      'that is ready to run. If there are no other threads of equal
     '                                      'priority that are ready to run, execution of the current thread is not suspended.
 
-
     '                                  Loop
 
     '                                  End
-
 
     '                              Catch ex As Exception
 
@@ -191,16 +197,8 @@ Public Class Form1
 
     '                              End Try
 
-
     '                          End Sub)
 
-    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
-
-        UpdateGame()
-
-        Refresh() 'Calls OnPaint Event
-
-    End Sub
 
     Private Sub UpdateGame()
 
@@ -1075,7 +1073,8 @@ Public Class Form1
 
     Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
 
-        Running = False
+        ' Signal game loop to stop running when form is closed
+        gameLoopCancellationToken.Cancel()
 
     End Sub
 
