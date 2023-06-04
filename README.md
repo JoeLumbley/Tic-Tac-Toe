@@ -205,7 +205,7 @@ Protected Overrides Sub OnPaint(ByVal e As PaintEventArgs)
         DrawGame()
 
         'Draw frames per second display.
-        Buffer.Graphics.DrawString(FPS & " FPS", FPSFont, Brushes.Purple, 0, ClientRectangle.Bottom - 75)
+        Buffer.Graphics.DrawString(FPS & " FPS", FPSFont, Brushes.Orchid, 0, ClientRectangle.Bottom - 75)
 
         'Show buffer on form.
         Buffer.Render(e.Graphics)
@@ -219,22 +219,22 @@ Protected Overrides Sub OnPaint(ByVal e As PaintEventArgs)
 
         'Use these settings when drawing to the backbuffer.
         With Buffer.Graphics
-            'Bug Fix
-            .CompositingMode = Drawing2D.CompositingMode.SourceOver 'Don't Change.
-            'To fix draw string error with anti aliasing: "Parameters not valid."
-            'I set the compositing mode to source over.
-            .TextRenderingHint = Drawing.Text.TextRenderingHint.AntiAliasGridFit
-            .SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
-            .CompositingQuality = Drawing2D.CompositingQuality.HighQuality
-            .InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
-            .PixelOffsetMode = Drawing2D.PixelOffsetMode.HighQuality
 
+            'Bug Fix. Don't Change.
+            'To fix draw string error with anti aliasing: "Parameters not valid."
+            .CompositingMode = CompositingMode.SourceOver 'I set the compositing mode to source over.
+
+            .TextRenderingHint = TextRenderingHint.AntiAliasGridFit
+            .SmoothingMode = SmoothingMode.AntiAlias
+            .CompositingQuality = CompositingQuality.HighQuality
+            .InterpolationMode = InterpolationMode.HighQualityBicubic
+            .PixelOffsetMode = PixelOffsetMode.HighQuality
             .TextContrast = 6 'a value between 0 and 12
         End With
 
         UpdateFrameCounter()
 
-End Sub
+    End Sub
 
 
 ```
