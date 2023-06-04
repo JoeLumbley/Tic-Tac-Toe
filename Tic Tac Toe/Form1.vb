@@ -330,7 +330,7 @@ Public Class Form1
 
     Private Sub DrawPlaying()
 
-        DrawGridLines()
+        DrawBoardLines()
 
         DrawXsAndOs()
 
@@ -347,7 +347,7 @@ Public Class Form1
 
     Private Sub DrawEndScreen()
 
-        DrawGridLines()
+        DrawBoardLines()
 
         DrawXsAndOs()
 
@@ -803,17 +803,35 @@ Public Class Form1
 
     End Sub
 
-    Private Sub DrawGridLines()
+    Private Sub DrawBoardLines()
 
         Dim LinePen As New Pen(Color.White, LinePenWidth)
 
-        ' Draw vertical lines
-        Buffer.Graphics.DrawLine(LinePen, CellWidth, 0, CellWidth, ClientSize.Height)
-        Buffer.Graphics.DrawLine(LinePen, ClientSize.Width * 2 \ 3, 0, ClientSize.Width * 2 \ 3, ClientSize.Height)
+        'Draw vertical board lines
+        Buffer.Graphics.DrawLine(LinePen,
+                                 CellWidth,
+                                 0,
+                                 CellWidth,
+                                 ClientSize.Height)
 
-        ' Draw horizontal lines
-        Buffer.Graphics.DrawLine(LinePen, 0, CellHeight, ClientSize.Width, ClientSize.Height \ 3)
-        Buffer.Graphics.DrawLine(LinePen, 0, ClientSize.Height * 2 \ 3, ClientSize.Width, ClientSize.Height * 2 \ 3)
+        Buffer.Graphics.DrawLine(LinePen,
+                                 ClientSize.Width * 2 \ 3,
+                                 0,
+                                 ClientSize.Width * 2 \ 3,
+                                 ClientSize.Height)
+
+        'Draw horizontal board lines
+        Buffer.Graphics.DrawLine(LinePen,
+                                 0,
+                                 CellHeight,
+                                 ClientSize.Width,
+                                 ClientSize.Height \ 3)
+
+        Buffer.Graphics.DrawLine(LinePen,
+                                 0,
+                                 ClientSize.Height * 2 \ 3,
+                                 ClientSize.Width,
+                                 ClientSize.Height * 2 \ 3)
 
         LinePen.Dispose()
 
