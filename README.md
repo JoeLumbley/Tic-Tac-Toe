@@ -186,38 +186,6 @@ End Sub
 ```
 
 
-
-
-
-
-
-
-
-```
-
-
-Private Sub InitTimer1()
-
-        'Set tick rate to 60 ticks per second. 1 second = 1000 milliseconds.
-        Timer1.Interval = 15 '16.66666666666667 ms = 1000 ms / 60 ticks
-
-        Timer1.Start()
-
-End Sub
-
-
-Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
-
-        UpdateGame()
-
-        Refresh() 'Calls OnPaint Event
-
-End Sub
-
-
-```
-
-
 ## Draw Board
 
 
