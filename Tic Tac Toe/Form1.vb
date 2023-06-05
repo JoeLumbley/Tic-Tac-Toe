@@ -985,9 +985,10 @@ Public Class Form1
         'X coordinate of the mouse is greater than or equal to the
         'width of the client area. 
         If e.X < ClientSize.Width Then
-            'No Error.
+            'The X coordinate of the mouse is less than the width of the
+            'client area so we don't have an error condition.
 
-            Return e.X * 3 \ ClientSize.Width  'Returns the row number.
+            Return e.X * 3 \ ClientSize.Width  'Return the row number.
 
             'The function returns the result of the expression
             'e.X * 3 \ ClientSize.Width, which calculates the row number
@@ -998,14 +999,15 @@ Public Class Form1
             'but does not include fractions or decimals.
 
         Else
-            'Error.
+            'The X coordinate of the mouse is greater than or equal to the
+            'width of the client area so we do have an error condition.
 
             'Error Fix: Don't Change.
             'Fixes: IndexOutOfRangeException
             'Happens when mouse X is equal to or greater than the width of the client area.
             'e.X * 3 \ ClientSize.Width returns 3 which is out of range.
 
-            Return 2 'Returns the upper bound of the X axis which is 2.
+            Return 2 'Return the upper bound of the X axis which is 2.
 
         End If
 
@@ -1213,6 +1215,9 @@ End Class
 'AndAlso Operator
 'https://learn.microsoft.com/en-us/dotnet/visual-basic/language-reference/operators/andalso-operator
 '
+'The backslash \ operator performs integer division
+'https://learn.microsoft.com/en-us/office/vba/language/reference/user-interface-help/backslash-operator
+'
 'Bertie the Brain a video game version of tic-tac-toe, built by Dr. Josef Kates in 1950
 'https://en.wikipedia.org/wiki/Bertie_the_Brain
 '
@@ -1224,6 +1229,10 @@ End Class
 '
 'Graphics.TextContrast Property
 'https://learn.microsoft.com/en-us/dotnet/api/system.drawing.graphics.textcontrast?view=windowsdesktop-7.0
+'
+'
+'
+'
 '
 '
 '
