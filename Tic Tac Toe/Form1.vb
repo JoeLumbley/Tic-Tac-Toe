@@ -968,7 +968,8 @@ Public Class Form1
 
             'Error Fix: Don't Change.
             'Fixes: IndexOutOfRangeException
-            'Happens when mouse Y is equal to or greater than the height of the client area.
+            'Happens when mouse Y is equal to or greater than the height of the
+            'client area.
             'e.Y * 3 \ ClientSize.Height Returns 3 which is out of range.
 
             Return 2 'Returns the upper bound of the Y axis which is 2.
@@ -1004,7 +1005,8 @@ Public Class Form1
 
             'Error Fix: Don't Change.
             'Fixes: IndexOutOfRangeException
-            'Happens when mouse X is equal to or greater than the width of the client area.
+            'Happens when mouse X is equal to or greater than the width of the
+            'client area.
             'e.X * 3 \ ClientSize.Width returns 3 which is out of range.
 
             Return 2 'Return the upper bound of the X axis which is 2.
