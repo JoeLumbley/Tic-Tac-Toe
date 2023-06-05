@@ -944,33 +944,58 @@ Public Class Form1
     End Sub
 
     Private Function MouseToBoardY(e As MouseEventArgs) As Integer
+        'The function takes a MouseEventArgs object as input and
+        'returns an integer representing the column number on the board.
 
-        'Check for error condition.
+        'The function first checks for an error condition where the
+        'Y coordinate of the mouse is greater than or equal to the
+        'height of the client area. 
         If e.Y < ClientSize.Height Then
             'No Error.
 
             Return e.Y * 3 \ ClientSize.Height 'Returns the column number.
 
-        Else
-            'Error Fix: Don't Change.
+            'The function returns the result of the expression
+            'e.Y * 3 \ ClientSize.Height, which calculates the column number
+            'based on the mouse position and the size of the client area.
+            'The backslash (\) operator performs integer division, which means
+            'that the result is rounded down to the nearest integer.
+            'An integer is a whole number that can be positive, negative, or zero,
+            'but does not include fractions or decimals.
 
+        Else
+            'Error.
+
+            'Error Fix: Don't Change.
             'Fixes: IndexOutOfRangeException
-            'Happens when mouse Y is equal or greater than client height.
+            'Happens when mouse Y is equal to or greater than height of the client area.
             'e.X * 3 \ ClientSize.Height Returns 3 which is out of range.
 
-            Return 2 '2 is the upper bound of the Y axis.
+            Return 2 'Returns the upper bound of the Y axis which is 2.
 
         End If
 
     End Function
 
     Private Function MouseToBoardX(e As MouseEventArgs) As Integer
+        'The function takes a MouseEventArgs object as input and
+        'returns an integer representing the row number on the board.
 
-        'Check for error condition.
+        'The function first checks for an error condition where the
+        'X coordinate of the mouse is greater than or equal to the
+        'width of the client area. 
         If e.X < ClientSize.Width Then
             'No Error.
 
             Return e.X * 3 \ ClientSize.Width  'Returns the row number.
+
+            'The function returns the result of the expression
+            'e.X * 3 \ ClientSize.Width, which calculates the row number
+            'based on the mouse position and the size of the client area.
+            'The backslash (\) operator performs integer division, which means
+            'that the result is rounded down to the nearest integer.
+            'An integer is a whole number that can be positive, negative, or zero,
+            'but does not include fractions or decimals.
 
         Else
             'Error Fix: Don't Change.
