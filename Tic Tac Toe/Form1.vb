@@ -1176,12 +1176,6 @@ End Class
 'Graphics.DrawLine Method
 'https://learn.microsoft.com/en-us/dotnet/api/system.drawing.graphics.drawline?view=windowsdesktop-7.0
 '
-'Graphics.DrawEllipse Method
-'https://learn.microsoft.com/en-us/dotnet/api/system.drawing.graphics.drawellipse?view=windowsdesktop-7.0
-'
-'Graphics.DrawString Method
-'https://learn.microsoft.com/en-us/dotnet/api/system.drawing.graphics.drawstring?view=windowsdesktop-7.0
-'
 'Pen Class
 'https://learn.microsoft.com/en-us/dotnet/api/system.drawing.pen?view=windowsdesktop-7.0
 '
@@ -1191,14 +1185,14 @@ End Class
 'Color.Blue Property
 'https://learn.microsoft.com/en-us/dotnet/api/system.drawing.color.blue?view=net-7.0
 '
+'Graphics.DrawEllipse Method
+'https://learn.microsoft.com/en-us/dotnet/api/system.drawing.graphics.drawellipse?view=windowsdesktop-7.0
+'
 'Color.Red Property
 'https://learn.microsoft.com/en-us/dotnet/api/system.drawing.color.red?view=net-7.0
 '
-'Color.Purple Property
-'https://learn.microsoft.com/en-us/dotnet/api/system.drawing.color.purple?view=net-7.0
-'
-'Color.Orchid Property
-'https://learn.microsoft.com/en-us/dotnet/api/system.drawing.color.orchid?view=net-7.0
+'Graphics.DrawString Method
+'https://learn.microsoft.com/en-us/dotnet/api/system.drawing.graphics.drawstring?view=windowsdesktop-7.0
 '
 'Brushes.Black Property
 'https://learn.microsoft.com/en-us/dotnet/api/system.drawing.brushes.black?view=dotnet-plat-ext-7.0
@@ -1206,6 +1200,12 @@ End Class
 'Brushes.Yellow Property
 'https://learn.microsoft.com/en-us/dotnet/api/system.drawing.brushes.yellow?view=dotnet-plat-ext-7.0
 '
+'Color.Purple Property
+'https://learn.microsoft.com/en-us/dotnet/api/system.drawing.color.purple?view=net-7.0
+'
+'Color.Orchid Property
+'https://learn.microsoft.com/en-us/dotnet/api/system.drawing.color.orchid?view=net-7.0
+
 'BufferedGraphics.Render Method
 'https://learn.microsoft.com/en-us/dotnet/api/system.drawing.bufferedgraphics.render?view=dotnet-plat-ext-7.0
 '
@@ -1217,6 +1217,9 @@ End Class
 '
 'The backslash \ operator performs integer division
 'https://learn.microsoft.com/en-us/office/vba/language/reference/user-interface-help/backslash-operator
+'
+'Integer Data Type
+'https://learn.microsoft.com/en-us/dotnet/visual-basic/language-reference/data-types/integer-data-type
 '
 'Bertie the Brain a video game version of tic-tac-toe, built by Dr. Josef Kates in 1950
 'https://en.wikipedia.org/wiki/Bertie_the_Brain
