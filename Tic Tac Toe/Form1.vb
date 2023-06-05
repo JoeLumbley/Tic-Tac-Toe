@@ -1139,6 +1139,9 @@ End Class
 'BufferedGraphicsContext.Allocate Method
 'https://learn.microsoft.com/en-us/dotnet/api/system.drawing.bufferedgraphicscontext.allocate?view=dotnet-plat-ext-7.0
 '
+'Graphics.Clear(Color) Method
+'https://learn.microsoft.com/en-us/dotnet/api/system.drawing.graphics.clear?view=dotnet-plat-ext-7.0
+'
 'Color.Black Property
 'https://learn.microsoft.com/en-us/dotnet/api/system.drawing.color.black?view=net-7.0#system-drawing-color-black
 '
