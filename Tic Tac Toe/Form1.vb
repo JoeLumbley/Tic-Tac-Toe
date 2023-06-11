@@ -236,6 +236,7 @@ Public Class Form1
 
                 GameState = GameStateEnum.EndScreen
 
+                'Are there
             ElseIf CheckForDraw() Then
 
                 Winner = Win.Draw
@@ -243,6 +244,7 @@ Public Class Form1
                 GameState = GameStateEnum.EndScreen
 
             Else
+                'The computer didn't win and there are still empty cells.
 
                 'We switch to the human player's turn.
                 CurrentPlayer = Cell.X
@@ -691,13 +693,15 @@ Public Class Form1
 
     Private Function CheckForDraw() As Boolean
 
+        'Have all cells on the board been filled with a players mark?
         For X = 0 To 2
 
             For Y = 0 To 2
 
                 If Board(X, Y) = Cell.Empty Then
+                    'No, we have at least one empty cell.
 
-                    Return False
+                    Return False 'The game is not over.
 
                 End If
 
@@ -705,7 +709,9 @@ Public Class Form1
 
         Next
 
-        Return True
+        'All cell have been filled.
+
+        Return True 'The game is over.
 
     End Function
 
@@ -768,7 +774,6 @@ Public Class Form1
     End Sub
 
     Private Sub DrawCoordinate(X As Integer, Y As Integer)
-
 
         Dim CoordinatesFont As New Font(FontFamily.GenericSansSerif, ResultFontSize)
 
