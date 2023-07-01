@@ -116,7 +116,7 @@ Public Class Form1
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        InitializeBoard()
+        ClearBoard()
 
         InitializeStringAlinement()
 
@@ -130,25 +130,11 @@ Public Class Form1
 
         InitBuffer()
 
-        InitTimer1()
+        InitTimer()
 
     End Sub
 
-    Private Sub InitializeBoard()
-
-        For X = 0 To 2
-
-            For Y = 0 To 2
-
-                Board(X, Y) = Cell.Empty
-
-            Next
-
-        Next
-
-    End Sub
-
-    Private Sub InitTimer1()
+    Private Sub InitTimer()
 
         'Set tick rate to 60 ticks per second. 1 second = 1000 milliseconds.
         Timer1.Interval = 15 '16.66666666666667 ms = 1000 ms / 60 ticks
@@ -156,6 +142,7 @@ Public Class Form1
         Timer1.Start()
 
     End Sub
+
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
 
         UpdateGame()
@@ -709,7 +696,7 @@ Public Class Form1
 
         Next
 
-        'All cell have been filled.
+        'All cells have been filled.
 
         Return True 'The game is over.
 
@@ -718,6 +705,14 @@ Public Class Form1
     Private Sub ResetGame()
 
         WinMarkerVisable = False
+
+        ClearBoard()
+
+        CurrentPlayer = Cell.X
+
+    End Sub
+
+    Private Sub ClearBoard()
 
         For X = 0 To 2
 
@@ -728,8 +723,6 @@ Public Class Form1
             Next
 
         Next
-
-        CurrentPlayer = Cell.X
 
     End Sub
 
@@ -795,7 +788,7 @@ Public Class Form1
         'We begin by drawing a diagonal line
         'from the top left corner to the bottom right corner.
         Buffer.Graphics.DrawLine(XPen,
-        X * CellWidth + CellPaddingWidth,
+                                 X * CellWidth + CellPaddingWidth,
                                  Y * CellHeight + CellPaddingHeight,
                                  (X + 1) * CellWidth - CellPaddingWidth,
                                  (Y + 1) * CellHeight - CellPaddingHeight)
